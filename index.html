@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>签到账号面板</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --surface-2: #263449;
+      --text: #e2e8f0;
+      --text-2: #94a3b8;
+      --border: #334155;
+      --primary: #3b82f6;
+      --primary-hover: #60a5fa;
+      --success: #52c41a;
+      --warning: #faad14;
+      --info: #1677ff;
+      --danger: #f43f5e;
+      --delay: #6b7280;
+      --radius: 12px;
+      --shadow: 0 4px 20px rgba(0,0,0,.25);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 16px;
+    }
+    .container { max-width: 1100px; margin: 0 auto; }
+    header { margin-bottom: 18px; }
+    h1 { margin: 0 0 8px; font-size: 22px; }
+    .meta { color: var(--text-2); font-size: 12px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+    .toolbar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 4px;
+      padding: 8px 14px; border: 1px solid var(--border); border-radius: var(--radius);
+      background: var(--surface); color: var(--text); font-size: 13px; cursor: pointer;
+      transition: all .15s;
+    }
+    .btn:hover { background: var(--surface-2); border-color: var(--primary); }
+    .btn.primary { background: var(--primary); border-color: var(--primary); color: #fff; }
+    .btn.primary:hover { background: var(--primary-hover); }
+    .btn:disabled { opacity: .5; cursor: not-allowed; }
+    .btn.small { padding: 6px 10px; font-size: 12px; }
+    .stats {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-bottom: 18px;
+    }
+    .stat {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 14px; text-align: center; box-shadow: var(--shadow);
+    }
+    .stat-num { font-size: 26px; font-weight: 700; }
+    .stat-label { color: var(--text-2); font-size: 12px; margin-top: 4px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+    .card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 14px; box-shadow: var(--shadow); transition: transform .15s, border-color .15s;
+    }
+    .card:hover { transform: translateY(-2px); border-color: var(--primary); }
+    .card.dead { opacity: .55; border-color: var(--danger); }
+    .card.delayed { border-color: var(--delay); }
+    .card-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 10px; }
+    .card-title { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .card-name { font-size: 16px; font-weight: 600; }
+    .vip-badge {
+      display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 600;
+      background: rgba(82,196,26,.15); color: var(--success); border: 1px solid rgba(82,196,26,.3);
+    }
+    .delay-badge {
+      display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 600;
+      background: rgba(107,114,128,.15); color: var(--delay); border: 1px solid rgba(107,114,128,.3);
+    }
+    .card-sub { color: var(--text-2); font-size: 12px; margin-top: 2px; }
+    .status-icon { font-size: 18px; }
+    .progress-wrap { margin: 12px 0; }
+    .progress-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-2); margin-bottom: 4px; }
+    .progress-track { height: 8px; background: var(--surface-2); border-radius: 4px; overflow: hidden; }
+    .progress-fill { height: 100%; border-radius: 4px; transition: width .3s; }
+    .info-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-top: 1px solid var(--border); font-size: 13px; }
+    .info-label { color: var(--text-2); }
+    .info-value { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 12px; }
+    .card-actions { display: flex; gap: 8px; margin-top: 12px; }
+    .empty { color: var(--text-2); text-align: center; padding: 60px 20px; grid-column: 1 / -1; }
+    .toast {
+      position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+      background: #1f2937; color: #fff; padding: 10px 18px; border-radius: 8px;
+      font-size: 14px; opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 100;
+    }
+    .toast.show { opacity: 1; }
+    .toast.err { background: var(--danger); }
+    .loading { display: inline-block; width: 12px; height: 12px; border: 2px solid rgba(255,255,255,.3); border-top-color: #fff; border-radius: 50%; animation: spin .8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .config {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 12px; margin-bottom: 18px; display: none;
+    }
+    .config.open { display: block; }
+    .config-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 8px; }
+    .config-row:last-child { margin-bottom: 0; }
+    .config input, .config textarea {
+      flex: 1; min-width: 220px; background: var(--surface-2); border: 1px solid var(--border);
+      color: var(--text); padding: 8px 12px; border-radius: 8px; font-size: 13px;
+    }
+    .config textarea { width: 100%; min-height: 80px; font-family: monospace; }
+    .hint { color: var(--text-2); font-size: 12px; }
+    .error-box { color: var(--danger); font-size: 13px; margin-top: 8px; }
+    .tag {
+      display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 11px; margin-left: 6px;
+      background: var(--surface-2); color: var(--text-2);
+    }
+    .tag.today { background: rgba(82,196,26,.15); color: var(--success); }
+    .tag.yesterday { background: rgba(24,119,255,.15); color: var(--info); }
+    .tag.new { background: rgba(250,173,20,.15); color: var(--warning); }
+    .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+    .filter-bar .btn { padding: 6px 14px; font-size: 13px; }
+    .filter-bar .btn.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+    .domain-section {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 14px; margin-bottom: 18px; box-shadow: var(--shadow);
+    }
+    .domain-section h2 { margin: 0; font-size: 15px; font-weight: 600; }
+    .domain-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .domain-list { display: flex; flex-direction: column; gap: 8px; }
+    .domain-item {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 8px 10px; background: var(--surface-2); border-radius: 8px; font-size: 13px;
+    }
+    .domain-name { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+    .domain-status { display: flex; align-items: center; gap: 6px; font-size: 12px; }
+    .domain-status.active { color: var(--success); }
+    .domain-status.failed { color: var(--danger); }
+    .domain-time { color: var(--text-2); font-size: 11px; }
+    .domain-empty { color: var(--text-2); font-size: 13px; text-align: center; padding: 12px; }
+    input[type="file"] { display: none; }
+  </style>
+  <style>
+    /* v2.2 视觉增强 — 覆盖原样式，不改动任何 HTML/JS */
+    :root {
+      --bg: #0a0e1a;
+      --surface: rgba(30,41,59,.72);
+      --surface-2: rgba(38,52,73,.72);
+      --text: #e8edf6;
+      --text-2: #8b98ad;
+      --border: rgba(99,118,158,.22);
+      --primary: #4f8cff;
+      --primary-hover: #6ba0ff;
+      --success: #34d399;
+      --warning: #fbbf24;
+      --info: #4f8cff;
+      --danger: #f87171;
+      --delay: #7c8aa0;
+      --radius: 14px;
+      --shadow: 0 8px 32px rgba(0,0,0,.28);
+      --glow: 0 0 24px rgba(79,140,255,.15);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      background-image: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(79,140,255,.10), transparent 70%);
+      background-attachment: fixed;
+      -webkit-font-smoothing: antialiased;
+      padding: 0;
+    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 20px 16px 40px; }
+    header { 
+      margin-bottom: 20px; padding: 18px 0 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    h1 { 
+      font-size: 24px; font-weight: 700;
+      background: linear-gradient(135deg, #e8edf6 0%, #4f8cff 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .meta { font-size: 12px; gap: 16px; margin-top: 6px; }
+    .meta span { 
+      padding: 3px 10px; border-radius: 20px; 
+      background: var(--surface); border: 1px solid var(--border);
+    }
+    .toolbar { gap: 10px; margin-bottom: 20px; }
+    .btn {
+      min-height: 42px; padding: 8px 18px; border-radius: 12px;
+      font-size: 13.5px; font-weight: 500;
+      backdrop-filter: blur(8px);
+      transition: all .2s cubic-bezier(.4,0,.2,1);
+    }
+    .btn:hover { 
+      transform: translateY(-1px); 
+      box-shadow: 0 4px 16px rgba(79,140,255,.2);
+    }
+    .btn:active { transform: translateY(0); }
+    .btn.primary {
+      background: linear-gradient(135deg, var(--primary) 0%, #3b6fd9 100%);
+      border-color: transparent; box-shadow: 0 2px 12px rgba(79,140,255,.25);
+    }
+    .btn.small { min-height: 36px; padding: 6px 12px; font-size: 12px; }
+    .stats { gap: 10px; margin-bottom: 20px; }
+    .stat {
+      border-radius: 14px; padding: 16px 10px;
+      background: linear-gradient(160deg, var(--surface) 0%, rgba(30,41,59,.4) 100%);
+      border: 1px solid var(--border);
+      position: relative; overflow: hidden;
+      transition: transform .2s;
+    }
+    .stat:hover { transform: translateY(-2px); }
+    .stat::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--primary), transparent);
+      opacity: .5;
+    }
+    .stat-num { font-size: 28px; font-weight: 800; letter-spacing: -0.5px; }
+    .stat-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; opacity: .7; }
+    .grid { gap: 14px; }
+    .card {
+      border-radius: 16px; padding: 16px;
+      background: linear-gradient(160deg, var(--surface) 0%, rgba(30,41,59,.4) 100%);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      transition: all .25s cubic-bezier(.4,0,.2,1);
+      position: relative; overflow: hidden;
+    }
+    .card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(79,140,255,.4);
+      box-shadow: 0 8px 32px rgba(0,0,0,.3), var(--glow);
+    }
+    .card.dead { opacity: .45; filter: grayscale(.6); }
+    .card.dead:hover { transform: none; }
+    .card.delayed { opacity: .7; }
+    .card-name { font-size: 17px; font-weight: 700; }
+    .vip-badge {
+      border-radius: 20px; padding: 3px 10px; font-size: 11px; font-weight: 700;
+      background: linear-gradient(135deg, rgba(52,211,153,.2) 0%, rgba(52,211,153,.05) 100%);
+      border: 1px solid rgba(52,211,153,.3);
+      box-shadow: 0 0 12px rgba(52,211,153,.1);
+    }
+    .delay-badge { border-radius: 20px; padding: 3px 10px; }
+    .progress-track { 
+      height: 10px; border-radius: 6px; 
+      background: rgba(0,0,0,.25); 
+      box-shadow: inset 0 1px 3px rgba(0,0,0,.3);
+    }
+    .progress-fill { 
+      border-radius: 6px; 
+      box-shadow: 0 0 8px currentColor;
+      background-image: linear-gradient(90deg, rgba(255,255,255,.0) 0%, rgba(255,255,255,.15) 50%, rgba(255,255,255,.0) 100%) !important;
+      background-size: 200% 100%;
+      animation: shimmer 2s linear infinite;
+    }
+    @keyframes shimmer { to { background-position: -200% 0; } }
+    .info-row { 
+      border-top: 1px solid rgba(99,118,158,.12);
+      padding: 7px 0; font-size: 13px;
+    }
+    .card-actions { gap: 6px; margin-top: 14px; }
+    .card-actions .btn { flex: 1; min-height: 38px; }
+    .filter-bar { 
+      gap: 6px; margin-bottom: 20px;
+      padding: 4px; background: var(--surface); border-radius: 14px;
+      border: 1px solid var(--border); display: inline-flex; flex-wrap: wrap;
+    }
+    .filter-bar .btn { 
+      border: none; background: transparent; min-height: 36px;
+      padding: 6px 16px; border-radius: 10px;
+    }
+    .filter-bar .btn.active {
+      background: linear-gradient(135deg, var(--primary) 0%, #3b6fd9 100%);
+      color: #fff; box-shadow: 0 2px 8px rgba(79,140,255,.3);
+    }
+    .domain-section {
+      border-radius: 16px; padding: 16px;
+      background: linear-gradient(160deg, var(--surface) 0%, rgba(30,41,59,.4) 100%);
+      backdrop-filter: blur(12px);
+    }
+    .domain-item {
+      border-radius: 10px; padding: 10px 14px;
+      background: rgba(0,0,0,.2); border: 1px solid rgba(99,118,158,.1);
+      transition: all .15s;
+    }
+    .domain-item:hover { border-color: rgba(79,140,255,.3); }
+    .empty { padding: 80px 20px; opacity: .5; }
+    .toast {
+      border-radius: 12px; padding: 12px 24px; font-size: 14px;
+      backdrop-filter: blur(12px); box-shadow: 0 8px 32px rgba(0,0,0,.4);
+      max-width: 90vw;
+    }
+    .config {
+      border-radius: 16px; padding: 16px;
+      backdrop-filter: blur(12px);
+    }
+    .config input, .config textarea {
+      border-radius: 10px; padding: 10px 14px; font-size: 13.5px;
+      transition: border-color .15s;
+    }
+    .config input:focus, .config textarea:focus {
+      outline: none; border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(79,140,255,.12);
+    }
+    .hint { font-size: 12.5px; opacity: .6; }
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(99,118,158,.3); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(99,118,158,.5); }
+    @media (max-width: 640px) {
+      .container { padding: 12px 10px 32px; }
+      h1 { font-size: 20px; }
+      .stats { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+      .stat { padding: 12px 6px; }
+      .stat-num { font-size: 22px; }
+      .stat-label { font-size: 10px; }
+      .grid { grid-template-columns: 1fr; gap: 12px; }
+      .toolbar { gap: 6px; }
+      .btn { min-height: 40px; padding: 8px 14px; font-size: 13px; }
+      .filter-bar { width: 100%; overflow-x: auto; flex-wrap: nowrap; }
+      .filter-bar .btn { white-space: nowrap; }
+      .card-actions .btn { font-size: 11px; padding: 6px 4px; }
+      .meta { gap: 8px; }
+      .meta span { font-size: 11px; padding: 2px 8px; }
+    }
+    @media (max-width: 400px) {
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .toolbar .btn { flex: 1; }
+    }
+  </style>
+</head>
+<body>
+<div style="background:#fef3c7;color:#92400e;padding:8px 16px;font-size:12px;text-align:center;">📱 脱敏面板 · 点「从 GitHub 同步」输入 Token 可查看完整凭据 · <a href="https://github.com/shake24342/VIPvip" style="color:#1d4ed8;">私有仓库</a></div>
+  <div class="container">
+    <header>
+      <h1>签到账号面板</h1>
+      <div class="meta">
+        <span id="netStatus">检测中...</span>
+        <span id="apiStatus">API: -</span>
+        <span id="syncStatus"></span>
+        <span id="lastRunStatus"></span>
+      </div>
+    </header>
+
+    <div class="toolbar">
+      <button class="btn primary" id="btnImportFile">📁 导入 state.json</button>
+      <button class="btn" id="btnImportText">📋 粘贴内容</button>
+      <button class="btn" id="btnSync">📥 从 GitHub 同步</button>
+      <button class="btn" id="btnRefresh">🔄 刷新实时状态</button>
+    </div>
+
+    <div class="config" id="configBox">
+      <div class="config-row">
+        <input type="text" id="githubUrl" placeholder="https://raw.githubusercontent.com/用户名/仓库/main/state.json">
+        <button class="btn" id="btnSave">保存设置</button>
+      </div>
+      <div class="config-row">
+        <input type="password" id="githubToken" placeholder="GitHub Token（私有仓库必填，公开仓库留空）">
+      </div>
+      <div class="config-row" id="pasteRow" style="display:none;width:100%;">
+        <textarea id="pasteArea" placeholder="把 state.json 内容粘贴到这里"></textarea>
+      </div>
+      <div class="config-row" id="pasteBtnRow" style="display:none;">
+        <button class="btn primary" id="btnConfirmPaste">确认导入</button>
+      </div>
+      <div class="hint">Tip：日常最方便用法是「导入 state.json」——GitHub 仓库里下载最新 state.json，选中即可刷新面板。</div>
+      <div class="error-box" id="syncError"></div>
+    </div>
+
+    <div class="stats" id="stats">
+      <div class="stat"><div class="stat-num" id="statSigned" style="color:var(--success)">0</div><div class="stat-label">今日已签</div></div>
+      <div class="stat"><div class="stat-num" id="statVip24">0</div><div class="stat-label">24h VIP</div></div>
+      <div class="stat"><div class="stat-num" id="statVip12">0</div><div class="stat-label">12h VIP</div></div>
+      <div class="stat"><div class="stat-num" id="statProgress">0</div><div class="stat-label">7~14 天</div></div>
+      <div class="stat"><div class="stat-num" id="statDelay" style="color:var(--delay)">0</div><div class="stat-label">延迟中</div></div>
+      <div class="stat"><div class="stat-num" id="statAlive">0</div><div class="stat-label">活号</div></div>
+      <div class="stat"><div class="stat-num" id="statDead">0</div><div class="stat-label">已失效</div></div>
+    </div>
+
+    <div class="filter-bar" id="filterBar">
+      <button class="btn filter active" data-filter="all">全部</button>
+      <button class="btn filter" data-filter="no-vip">未获得 VIP</button>
+      <button class="btn filter" data-filter="vip-12h">7天 12h VIP</button>
+      <button class="btn filter" data-filter="vip">15天 24h VIP</button>
+      <button class="btn filter" data-filter="delay">延迟中</button>
+    </div>
+
+    <div class="domain-section" id="domainSection">
+      <div class="domain-header">
+        <h2>域名状态</h2>
+        <button class="btn small" id="btnProbeDomain">🔄 刷新域名</button>
+      </div>
+      <div class="domain-list" id="domainList">
+        <div class="domain-empty">暂无域名状态数据</div>
+      </div>
+    </div>
+
+    <div class="grid" id="grid">
+      <div class="empty">正在加载账号...</div>
+    </div>
+  </div>
+
+  <input type="file" id="fileInput" accept=".json,application/json">
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const CONFIG = {
+      API: 'https://api.demo.xyz/fast-cloud',
+      SITE: 'https://4w546gg3ihtq8u.xyz/',
+      DEFAULT_GITHUB_RAW: 'https://raw.githubusercontent.com/shake24342/VIPvip/main/state.json',
+      LS_URL_KEY: 'checkin_dashboard_url',
+      LS_TOKEN_KEY: 'checkin_dashboard_token',
+      LS_API_KEY: 'checkin_dashboard_api',
+      LS_DOMAIN_HISTORY_KEY: 'checkin_dashboard_domains',
+      LS_LAST_RUN_KEY: 'checkin_dashboard_last_run',
+      DELAY: 300
+    };
+
+    // 内嵌初始数据，每次脚本生成时会替换这里
+    const INITIAL_ACCOUNTS = [{"name":"acc1","card":"","pwd":"","token":"","days":5,"id":"","slot":0,"delay":0,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":true,"vip7At":null,"vip7ExpireAt":null},{"name":"acc2","card":"","pwd":"","token":"","days":5,"id":"","slot":1,"delay":0,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc3","card":"","pwd":"","token":"","days":5,"id":"","slot":2,"delay":1,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc4","card":"","pwd":"","token":"","days":5,"id":"","slot":3,"delay":1,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":true,"vip7At":null,"vip7ExpireAt":null},{"name":"acc5","card":"","pwd":"","token":"","days":5,"id":"","slot":4,"delay":2,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc6","card":"","pwd":"","token":"","days":5,"id":"","slot":5,"delay":2,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc7","card":"","pwd":"","token":"","days":5,"id":"","slot":6,"delay":3,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":true,"vip7At":null,"vip7ExpireAt":null},{"name":"acc8","card":"","pwd":"","token":"","days":5,"id":"","slot":7,"delay":3,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc9","card":"","pwd":"","token":"","days":5,"id":"","slot":8,"delay":4,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc10","card":"","pwd":"","token":"","days":5,"id":"","slot":9,"delay":4,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":true,"vip7At":null,"vip7ExpireAt":null},{"name":"acc11","card":"","pwd":"","token":"","days":5,"id":"","slot":10,"delay":5,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc12","card":"","pwd":"","token":"","days":5,"id":"","slot":11,"delay":5,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc13","card":"","pwd":"","token":"","days":5,"id":"","slot":12,"delay":6,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":true,"vip7At":null,"vip7ExpireAt":null},{"name":"acc14","card":"","pwd":"","token":"","days":5,"id":"","slot":13,"delay":6,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc15","card":"","pwd":"","token":"","days":5,"id":"","slot":14,"delay":7,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":"2026-08-17T03:54:52.666Z","vip7ExpireAt":"2026-08-17T15:54:52.667Z"},{"name":"acc16","card":"","pwd":"","token":"","days":5,"id":"","slot":15,"delay":7,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":true,"vip7At":"2026-08-17T03:54:52.667Z","vip7ExpireAt":"2026-08-17T15:54:52.667Z"},{"name":"acc17","card":"","pwd":"","token":"","days":5,"id":"","slot":16,"delay":8,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":"2026-08-17T03:54:52.667Z","vip7ExpireAt":"2026-08-17T15:54:52.667Z"},{"name":"acc18","card":"","pwd":"","token":"","days":5,"id":"","slot":17,"delay":8,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":"2026-08-17T03:54:52.667Z","vip7ExpireAt":"2026-08-17T15:54:52.667Z"},{"name":"acc19","card":"","pwd":"","token":"","days":5,"id":"","slot":18,"delay":9,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":true,"vip7At":"2026-08-17T03:54:52.667Z","vip7ExpireAt":"2026-08-17T15:54:52.667Z"},{"name":"acc20","card":"","pwd":"","token":"","days":5,"id":"","slot":19,"delay":9,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":"2026-08-17T03:54:52.667Z","vip7ExpireAt":"2026-08-17T15:54:52.667Z"},{"name":"acc21","card":"","pwd":"","token":"","days":5,"id":"","slot":20,"delay":10,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":"2026-08-17T03:54:52.667Z","vip7ExpireAt":"2026-08-17T15:54:52.667Z"},{"name":"acc22","card":"","pwd":"","token":"","days":5,"id":"","slot":21,"delay":10,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":true,"vip7At":"2026-08-17T03:54:52.667Z","vip7ExpireAt":"2026-08-17T15:54:52.667Z"},{"name":"acc23","card":"","pwd":"","token":"","days":5,"id":"","slot":22,"delay":11,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":"2026-08-17T03:54:52.667Z","vip7ExpireAt":"2026-08-17T15:54:52.667Z"},{"name":"acc24","card":"","pwd":"","token":"","days":5,"id":"","slot":23,"delay":11,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":"2026-08-17T03:54:52.667Z","vip7ExpireAt":"2026-08-17T15:54:52.667Z"},{"name":"acc25","card":"","pwd":"","token":"","days":5,"id":"","slot":24,"delay":12,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":true,"vip7At":"2026-08-17T03:54:52.667Z","vip7ExpireAt":"2026-08-17T15:54:52.667Z"},{"name":"acc26","card":"","pwd":"","token":"","days":5,"id":"","slot":25,"delay":12,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":"2026-08-17T03:54:52.667Z","vip7ExpireAt":"2026-08-17T15:54:52.667Z"},{"name":"acc27","card":"","pwd":"","token":"","days":5,"id":"","slot":26,"delay":13,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":"2026-08-17T03:54:52.667Z","vip7ExpireAt":"2026-08-17T15:54:52.667Z"},{"name":"acc28","card":"","pwd":"","token":"","days":5,"id":"","slot":27,"delay":13,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":true,"vip7At":"2026-08-17T03:54:52.667Z","vip7ExpireAt":"2026-08-17T15:54:52.667Z"},{"name":"acc29","card":"","pwd":"","token":"","days":7,"id":"","slot":28,"delay":14,"dead":true,"failCount":3,"signedToday":true,"signedYesterday":false,"vip7At":"2026-08-17T03:54:52.667Z","vip7ExpireAt":"2026-08-17T15:54:52.667Z"},{"name":"acc30","card":"","pwd":"","token":"","days":5,"id":"","slot":29,"delay":14,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":"2026-08-17T03:54:52.667Z","vip7ExpireAt":"2026-08-17T15:54:52.667Z"}];
+    const INITIAL_DOMAIN_HISTORY = [{"domain":"https://api.demo.xyz/fast-cloud","status":"active","updatedAt":"2026-08-17T03:54:52.667Z"}];
+
+    let accounts = [];
+    let domainHistory = [];
+    let currentFilter = 'all';
+    let jwtCache = null;
+    let jwtTime = 0;
+
+    const githubInput = document.getElementById('githubUrl');
+    const tokenInput = document.getElementById('githubToken');
+    const configBox = document.getElementById('configBox');
+    const pasteRow = document.getElementById('pasteRow');
+    const pasteBtnRow = document.getElementById('pasteBtnRow');
+
+    function tryGetLocalStorage() {
+      try { return localStorage; } catch (e) { return null; }
+    }
+    const ls = tryGetLocalStorage();
+    if (ls) {
+      githubInput.value = ls.getItem(CONFIG.LS_URL_KEY) || CONFIG.DEFAULT_GITHUB_RAW;
+      tokenInput.value = ls.getItem(CONFIG.LS_TOKEN_KEY) || '';
+      const savedApi = ls.getItem(CONFIG.LS_API_KEY);
+      if (savedApi && savedApi !== 'undefined') CONFIG.API = savedApi;
+    } else {
+      githubInput.value = CONFIG.DEFAULT_GITHUB_RAW;
+    }
+
+    function setApiStatus() {
+      document.getElementById('apiStatus').textContent = 'API: ' + (CONFIG.API || '未设置');
+    }
+    setApiStatus();
+
+    function toast(msg, err) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.className = 'toast' + (err ? ' err show' : ' show');
+      setTimeout(() => t.classList.remove('show'), 2500);
+    }
+
+    function setError(msg) {
+      document.getElementById('syncError').textContent = msg || '';
+    }
+
+    function updateNet(online) {
+      document.getElementById('netStatus').textContent = online ? '🟢 在线' : '🔴 离线';
+    }
+    window.addEventListener('online', () => updateNet(true));
+    window.addEventListener('offline', () => updateNet(false));
+    updateNet(navigator.onLine);
+
+    function normalizeAccounts(list) {
+      return (list || []).map(a => ({
+        name: a.name || '',
+        card: a.card || a.idCard || '',
+        pwd: a.pwd || a.idCardPwd || '',
+        token: a.token || '',
+        days: a.days || 0,
+        id: a.id || '',
+        dead: !!a.dead,
+        failCount: a.failCount || 0,
+        signedToday: !!a.signedToday,
+        signedYesterday: !!a.signedYesterday,
+        delay: a.delay || 0,
+        vip7At: a.vip7At || null,
+        vip7ExpireAt: a.vip7ExpireAt || null,
+        vip7: a.vip7 || 0,
+        vip15: a.vip15 || 0
+      }));
+    }
+
+    async function getJwt() {
+      const now = Date.now();
+      if (jwtCache && now - jwtTime < 10 * 60 * 1000) return jwtCache;
+      const r = await fetch(`${CONFIG.API}/app/jwt-token`, { method: 'GET' });
+      const j = await r.json();
+      if (j.code !== '0000') throw new Error('JWT 获取失败');
+      jwtCache = j.result;
+      jwtTime = now;
+      return jwtCache;
+    }
+
+    async function api(path, method = 'GET', body = null, token = null) {
+      const jwt = await getJwt();
+      const headers = { 'Content-Type': 'application/json', jwtToken: jwt };
+      if (token) headers.accessToken = token;
+      const opts = { method, headers };
+      if (body !== null) opts.body = JSON.stringify(body);
+      const res = await fetch(`${CONFIG.API}${path}`, opts);
+      return res.json();
+    }
+
+    function isAuthError(code) {
+      return ['1019', '1032', '1033', '1034'].includes(code);
+    }
+
+    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+    function progressColor(days, delay) {
+      if (delay > 0) return '#6b7280';
+      if (days >= 15) return '#52c41a';
+      if (days >= 7) return '#faad14';
+      return '#1677ff';
+    }
+
+    function statusIcon(days, dead, delay) {
+      if (dead) return '💀';
+      if (delay > 0) return '⏸️';
+      if (days >= 15) return '🎉';
+      if (days >= 7) return '🔥';
+      if (days > 0) return '📅';
+      return '⏳';
+    }
+
+    function tagFor(a) {
+      if (a.signedToday) return '<span class="tag today">今天</span>';
+      if (a.signedYesterday) return '<span class="tag yesterday">昨天</span>';
+      return '';
+    }
+
+    function hasActiveVip12h(a) {
+      if (!a.vip7ExpireAt) return false;
+      return new Date(a.vip7ExpireAt).getTime() > Date.now();
+    }
+
+    function hasActiveVip24h(a) {
+      return !a.dead && a.days >= 15;
+    }
+
+    function isDelayed(a) {
+      return !a.dead && a.delay > 0;
+    }
+
+    function render() {
+      const grid = document.getElementById('grid');
+      const filtered = accounts.filter(a => {
+        if (currentFilter === 'vip') return !a.dead && a.days >= 15;
+        if (currentFilter === 'vip-12h') return !a.dead && hasActiveVip12h(a);
+        if (currentFilter === 'no-vip') return !a.dead && a.days < 15 && !hasActiveVip12h(a);
+        if (currentFilter === 'delay') return isDelayed(a);
+        return true;
+      });
+      if (!filtered.length) {
+        const msg = currentFilter === 'vip' ? '暂无 15天 24h VIP 账号' : currentFilter === 'vip-12h' ? '暂无 7天 12h VIP 账号' : currentFilter === 'no-vip' ? '暂无未获得 VIP 的账号' : currentFilter === 'delay' ? '暂无延迟中的账号' : '暂无账号';
+        grid.innerHTML = `<div class="empty">${msg}<br>点上方「导入 state.json」或「从 GitHub 同步」加载</div>`;
+      } else {
+        grid.innerHTML = filtered.map((a, i) => {
+          const originalIdx = accounts.indexOf(a);
+          const color = progressColor(a.days, a.delay);
+          const pct = Math.min(100, (a.days / 15) * 100);
+          const vip24 = a.days >= 15 ? '<span class="vip-badge">24h VIP</span>' : '';
+          const vip12 = hasActiveVip12h(a) ? '<span class="vip-badge" style="background:rgba(250,173,20,.15);color:var(--warning);border-color:rgba(250,173,20,.3)">12h VIP</span>' : '';
+          const delayBadge = a.delay > 0 ? `<span class="delay-badge">延迟 ${a.delay} 天</span>` : '';
+          const tag = tagFor(a);
+          const cardRow = a.card
+            ? `<div class="info-row"><span class="info-label">身份卡</span><span class="info-value">${a.card}</span></div><div class="info-row"><span class="info-label">密码</span><span class="info-value">${a.pwd}</span></div>`
+            : '';
+          const vip12Row = hasActiveVip12h(a)
+            ? `<div class="info-row"><span class="info-label">12h VIP 领取</span><span class="info-value">${formatTime(a.vip7At)}</span></div><div class="info-row"><span class="info-label">12h VIP 到期</span><span class="info-value">${formatTime(a.vip7ExpireAt)}</span></div>`
+            : '';
+          const delayRow = a.delay > 0
+            ? `<div class="info-row"><span class="info-label">启动延迟</span><span class="info-value" style="color:var(--delay)">⏸️ ${a.delay} 天</span></div>`
+            : '';
+          const cardClass = a.dead ? 'dead' : (a.delay > 0 ? 'delayed' : '');
+          return `<div class="card ${cardClass}" data-idx="${originalIdx}">
+            <div class="card-header">
+              <div>
+                <div class="card-title"><span class="status-icon">${statusIcon(a.days, a.dead, a.delay)}</span><span class="card-name">${a.name}</span>${vip24}${vip12}${delayBadge}${tag}</div>
+                <div class="card-sub">${a.id ? 'ID ' + a.id : '无 ID'} · ${a.dead ? '已失效' : a.delay > 0 ? '延迟 ' + a.delay + ' 天 · 连续 ' + a.days + ' 天' : '连续 ' + a.days + ' 天'}</div>
+              </div>
+            </div>
+            <div class="progress-wrap">
+              <div class="progress-label"><span>签到进度${a.delay > 0 ? ' (延迟中)' : ''}</span><span>${a.days}/15</span></div>
+              <div class="progress-track"><div class="progress-fill" style="width:${pct}%;background:${color}"></div></div>
+            </div>
+            ${cardRow}
+            ${vip12Row}
+            ${delayRow}
+            <div class="card-actions">
+              <button class="btn small" data-action="copy-card" data-idx="${originalIdx}">📋 卡</button>
+              <button class="btn small" data-action="copy-pwd" data-idx="${originalIdx}">📋 密</button>
+              <button class="btn small" data-action="refresh" data-idx="${originalIdx}">🔄</button>
+              <button class="btn small" data-action="login" data-idx="${originalIdx}">🔑 登录</button>
+            </div>
+          </div>`;
+        }).join('');
+      }
+      updateStats();
+      renderDomains();
+      updateFilterButtons();
+    }
+
+    function updateFilterButtons() {
+      document.querySelectorAll('#filterBar .btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.filter === currentFilter);
+      });
+    }
+
+    function formatTime(iso) {
+      if (!iso) return '-';
+      const d = new Date(iso);
+      if (isNaN(d)) return iso;
+      return d.toLocaleString('zh-CN', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+    }
+
+    function renderDomains() {
+      const list = document.getElementById('domainList');
+      const active = (domainHistory || []).filter(d => d.status === 'active').sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+      if (!active.length) {
+        list.innerHTML = '<div class="domain-empty">暂无有效域名数据<br>点上方「刷新域名」或导入 state.json</div>';
+        return;
+      }
+      list.innerHTML = active.map(d => {
+        return `<div class="domain-item">
+          <span class="domain-name">${d.domain}</span>
+          <span class="domain-status active">🟢 有效 <span class="domain-time">${formatTime(d.updatedAt)}</span></span>
+        </div>`;
+      }).join('');
+    }
+
+    function saveDomainHistory() {
+      if (ls) ls.setItem(CONFIG.LS_DOMAIN_HISTORY_KEY, JSON.stringify(domainHistory));
+    }
+
+    function loadDomainHistory() {
+      if (!ls) return;
+      try {
+        const raw = ls.getItem(CONFIG.LS_DOMAIN_HISTORY_KEY);
+        if (raw && raw !== 'undefined') domainHistory = JSON.parse(raw);
+      } catch (e) {}
+    }
+
+    function updateLastRun(source) {
+      const now = new Date().toLocaleString('zh-CN');
+      const el = document.getElementById('lastRunStatus');
+      if (source) {
+        el.textContent = `上次运行：${source}`;
+      } else {
+        el.textContent = `上次运行：${now}`;
+      }
+      if (ls) ls.setItem(CONFIG.LS_LAST_RUN_KEY, now);
+    }
+
+    function loadLastRun() {
+      if (!ls) return;
+      const saved = ls.getItem(CONFIG.LS_LAST_RUN_KEY);
+      if (saved) {
+        document.getElementById('lastRunStatus').textContent = `上次运行：${saved}`;
+      }
+    }
+
+    async function probeCurrentDomain() {
+      const btn = document.getElementById('btnProbeDomain');
+      const old = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<span class="loading"></span> 探测中';
+      try {
+        const r = await fetch(`${CONFIG.API}/app/jwt-token`, { method: 'GET', cache: 'no-store' });
+        const j = await r.json();
+        if (j.code === '0000' && j.result) {
+          updateDomainHistoryEntry(CONFIG.API, 'active');
+          saveDomainHistory();
+          renderDomains();
+          toast(`域名可用：${CONFIG.API}`);
+        } else {
+          throw new Error('返回状态异常');
+        }
+      } catch (e) {
+        // 当前域名不可用，尝试从 GitHub 拉最新 domainHistory
+        toast(`当前域名探测失败：${e.message}，尝试从 GitHub 同步...`, true);
+        await syncDomainHistoryFromGitHub();
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = old;
+      }
+    }
+
+    function updateDomainHistoryEntry(domain, status) {
+      if (!domain) return;
+      const base = domain.replace(/\/$/, '');
+      const idx = domainHistory.findIndex(d => d.domain === base);
+      const entry = { domain: base, status, updatedAt: new Date().toISOString() };
+      if (idx >= 0) domainHistory[idx] = entry;
+      else domainHistory.push(entry);
+    }
+
+    async function syncDomainHistoryFromGitHub() {
+      const url = githubInput.value.trim() || CONFIG.DEFAULT_GITHUB_RAW;
+      const token = tokenInput.value.trim();
+      if (!url) return;
+      try {
+        let state;
+        try {
+          state = await fetchRaw(url);
+        } catch (rawErr) {
+          if (!token) throw rawErr;
+          state = await fetchViaGitHubApi(url, token);
+        }
+        if (state.apiDomain) {
+          CONFIG.API = state.apiDomain;
+          setApiStatus();
+          if (ls) ls.setItem(CONFIG.LS_API_KEY, state.apiDomain);
+        }
+        if (state.domainHistory && state.domainHistory.length) {
+          domainHistory = state.domainHistory;
+          saveDomainHistory();
+          renderDomains();
+          toast(`已从 GitHub 同步 ${domainHistory.length} 条域名记录`);
+        } else {
+          toast('GitHub 上暂无域名历史记录');
+        }
+      } catch (e) {
+        toast('同步域名失败：' + e.message, true);
+      }
+    }
+
+    function updateStats() {
+      const signed = accounts.filter(a => a.signedToday).length;
+      const vip24 = accounts.filter(a => !a.dead && a.days >= 15).length;
+      const vip12 = accounts.filter(a => !a.dead && hasActiveVip12h(a)).length;
+      const progress = accounts.filter(a => !a.dead && a.days >= 7 && a.days < 15).length;
+      const delayed = accounts.filter(a => isDelayed(a)).length;
+      const alive = accounts.filter(a => !a.dead).length;
+      const dead = accounts.filter(a => a.dead).length;
+      document.getElementById('statSigned').textContent = signed;
+      document.getElementById('statVip24').textContent = vip24;
+      document.getElementById('statVip12').textContent = vip12;
+      document.getElementById('statProgress').textContent = progress;
+      document.getElementById('statDelay').textContent = delayed;
+      document.getElementById('statAlive').textContent = alive;
+      document.getElementById('statDead').textContent = dead;
+    }
+
+    function loadAccounts(list, apiDomain, domains, lastRun) {
+      accounts = normalizeAccounts(list);
+      if (domains) {
+        domainHistory = domains;
+        saveDomainHistory();
+      }
+      render();
+      const now = new Date().toLocaleString('zh-CN');
+      document.getElementById('syncStatus').textContent = '更新时间：' + now;
+      updateLastRun(lastRun || now);
+      if (apiDomain) {
+        CONFIG.API = apiDomain;
+        setApiStatus();
+        if (ls) ls.setItem(CONFIG.LS_API_KEY, apiDomain);
+      }
+      toast(`已加载 ${accounts.length} 个账号`);
+    }
+
+    function handleFile(file) {
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = e => {
+        try {
+          const state = JSON.parse(e.target.result);
+          loadAccounts(state.accounts || state, state.apiDomain, state.domainHistory, state.lastRun || state.updatedAt);
+        } catch (err) {
+          toast('文件解析失败', true);
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    async function fetchRaw(url) {
+      const r = await fetch(url + '?t=' + Date.now(), { cache: 'no-store' });
+      if (!r.ok) throw new Error('Raw HTTP ' + r.status);
+      return r.json();
+    }
+
+    async function fetchViaGitHubApi(rawUrl, token) {
+      const match = rawUrl.match(/raw\.githubusercontent\.com\/([^/]+)\/([^/]+)\/([^/]+)\/(.+)/);
+      if (!match) throw new Error('无法解析 GitHub Raw 地址');
+      const [, owner, repo, branch, filePath] = match;
+      const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}?ref=${branch}`;
+      const r = await fetch(apiUrl, {
+        headers: {
+          'Authorization': `token ${token}`,
+          'Accept': 'application/vnd.github.v3+json'
+        }
+      });
+      if (!r.ok) throw new Error('GitHub API ' + r.status);
+      const j = await r.json();
+      const content = atob(j.content.replace(/\n/g, ''));
+      return JSON.parse(content);
+    }
+
+    async function syncFromGitHub() {
+      setError('');
+      configBox.classList.add('open');
+      const url = githubInput.value.trim();
+      const token = tokenInput.value.trim();
+      if (!url) return toast('请先填写 GitHub Raw 地址', true);
+
+      const btn = document.getElementById('btnSync');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="loading"></span> 同步中';
+
+      try {
+        let state;
+        try {
+          state = await fetchRaw(url);
+        } catch (rawErr) {
+          if (!token) throw new Error('Raw 拉取失败（' + rawErr.message + '），私有仓库请填写 Token');
+          state = await fetchViaGitHubApi(url, token);
+        }
+        loadAccounts(state.accounts || [], state.apiDomain, state.domainHistory, state.lastRun || state.updatedAt);
+      } catch (e) {
+        setError(e.message);
+        toast('同步失败：' + e.message, true);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '📥 从 GitHub 同步';
+      }
+    }
+
+    async function refreshOne(i, btn) {
+      const a = accounts[i];
+      if (!a.token || a.dead) return toast('无 token 或已失效', true);
+      const old = btn.innerHTML;
+      btn.innerHTML = '<span class="loading"></span>';
+      try {
+        const info = await api('/activation/signin/info', 'GET', null, a.token);
+        if (info.code !== '0000') {
+          if (isAuthError(info.code)) { a.dead = true; a.failCount = 3; }
+          toast(`${a.name} 刷新失败：${info.message}`, true);
+        } else {
+          a.days = (info.result || {}).days || 0;
+          a.dead = false;
+          a.failCount = 0;
+          toast(`${a.name} 刷新成功，${a.days} 天`);
+        }
+      } catch (e) {
+        toast(`${a.name} 刷新失败：${e.message}`, true);
+      }
+      btn.innerHTML = old;
+      render();
+    }
+
+    async function refreshAll() {
+      const targets = accounts.filter(a => !a.dead && a.token);
+      if (!targets.length) return toast('没有可刷新的活号', true);
+      const btn = document.getElementById('btnRefresh');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="loading"></span> 刷新中';
+      for (const a of accounts) {
+        if (!a.token || a.dead) continue;
+        try {
+          const info = await api('/activation/signin/info', 'GET', null, a.token);
+          if (info.code !== '0000') {
+            if (isAuthError(info.code)) { a.dead = true; a.failCount = 3; }
+          } else {
+            a.days = (info.result || {}).days || 0;
+            a.dead = false;
+            a.failCount = 0;
+          }
+        } catch (e) {}
+        await sleep(CONFIG.DELAY);
+      }
+      render();
+      updateLastRun();
+      btn.disabled = false;
+      btn.innerHTML = '🔄 刷新实时状态';
+      toast('批量刷新完成');
+    }
+
+    document.getElementById('fileInput').addEventListener('change', e => {
+      handleFile(e.target.files[0]);
+      e.target.value = '';
+    });
+
+    document.getElementById('btnImportFile').addEventListener('click', () => {
+      document.getElementById('fileInput').click();
+    });
+
+    document.getElementById('btnImportText').addEventListener('click', () => {
+      configBox.classList.toggle('open');
+      pasteRow.style.display = 'flex';
+      pasteBtnRow.style.display = 'flex';
+      document.getElementById('pasteArea').focus();
+    });
+
+    document.getElementById('btnConfirmPaste').addEventListener('click', () => {
+      try {
+        const text = document.getElementById('pasteArea').value.trim();
+        if (!text) return toast('粘贴内容为空', true);
+        const state = JSON.parse(text);
+        loadAccounts(state.accounts || state, state.apiDomain, state.domainHistory, state.lastRun || state.updatedAt);
+        document.getElementById('pasteArea').value = '';
+        pasteRow.style.display = 'none';
+        pasteBtnRow.style.display = 'none';
+      } catch (err) {
+        toast('JSON 解析失败', true);
+      }
+    });
+
+    document.getElementById('btnSync').addEventListener('click', () => {
+      configBox.classList.add('open');
+      syncFromGitHub();
+    });
+
+    document.getElementById('btnRefresh').addEventListener('click', refreshAll);
+
+    document.getElementById('btnProbeDomain').addEventListener('click', probeCurrentDomain);
+
+    document.getElementById('btnSave').addEventListener('click', () => {
+      if (ls) {
+        ls.setItem(CONFIG.LS_URL_KEY, githubInput.value.trim());
+        ls.setItem(CONFIG.LS_TOKEN_KEY, tokenInput.value.trim());
+      }
+      toast('设置已保存');
+    });
+
+    document.getElementById('filterBar').addEventListener('click', e => {
+      const btn = e.target.closest('.filter');
+      if (!btn) return;
+      currentFilter = btn.dataset.filter;
+      render();
+    });
+
+    document.getElementById('grid').addEventListener('click', e => {
+      const btn = e.target.closest('button');
+      if (!btn) return;
+      const i = +btn.dataset.idx;
+      const a = accounts[i];
+      const action = btn.dataset.action;
+      if (action === 'copy-card') {
+        if (!a.card) return toast('无身份卡号', true);
+        navigator.clipboard.writeText(a.card).then(() => toast('身份卡号已复制')).catch(() => toast('复制失败', true));
+      } else if (action === 'copy-pwd') {
+        if (!a.pwd) return toast('无身份卡密码', true);
+        navigator.clipboard.writeText(a.pwd).then(() => toast('密码已复制')).catch(() => toast('复制失败', true));
+      } else if (action === 'login') {
+        if (!a.token) return toast('无 accessToken', true);
+        localStorage.setItem('accessToken', a.token);
+        toast('已写入 token，跳转中...');
+        setTimeout(() => window.open(CONFIG.SITE, '_blank'), 400);
+      } else if (action === 'refresh') {
+        refreshOne(i, btn);
+      }
+    });
+
+    // 初始化：优先用内嵌数据，再尝试 localStorage 缓存的域名历史
+    loadDomainHistory();
+    loadLastRun();
+    domainHistory = INITIAL_DOMAIN_HISTORY.length ? INITIAL_DOMAIN_HISTORY : domainHistory;
+    loadAccounts(INITIAL_ACCOUNTS);
+  </script>
+</body>
+</html>
