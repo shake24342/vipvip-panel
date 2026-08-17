@@ -1799,7 +1799,7 @@ function hideLockScreen() {
   if (el) el.style.display = 'none';
 }
 function initLock() {
-  if (!hasLock) return;
+  if (!hasLock()) return;
   showLockScreen();
   const savedPwd = ls ? ls.getItem('panel_lock_pwd') : null;
   document.getElementById('btnUnlock').addEventListener('click', function () {
