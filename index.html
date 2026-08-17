@@ -313,6 +313,37 @@ input[type="file"]{display:none}
 
 footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
 
+/* ===== 进度条图例 ===== */
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:12px;font-size:11.5px;color:var(--text2)}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.legend i{width:10px;height:10px;border-radius:3px;display:inline-block}
+.legend .l0{background:#1677ff}.legend .l1{background:#faad14}.legend .l2{background:#52c41a}.legend .l3{background:#94a3b8}
+
+/* ===== 密码锁 ===== */
+.lock-screen{
+  position:fixed;inset:0;z-index:500;display:none;
+  align-items:center;justify-content:center;
+  background:rgba(34,28,53,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+}
+.lock-card{
+  background:#fff;border-radius:22px;padding:34px 28px;width:min(92vw,380px);
+  box-shadow:0 30px 80px rgba(34,28,53,.35);text-align:center;
+}
+.lock-ic{
+  width:58px;height:58px;margin:0 auto 14px;border-radius:18px;
+  background:linear-gradient(135deg,#f3e8ff,#fce7f3);color:#7c3aed;
+  display:flex;align-items:center;justify-content:center;
+}
+.lock-ic svg{width:26px;height:26px}
+.lock-card h3{font-size:17px;font-weight:800;margin-bottom:6px}
+.lock-card p{font-size:12.5px;color:var(--text2);margin-bottom:18px;line-height:1.6}
+.lock-card input{
+  width:100%;padding:11px 14px;border-radius:11px;border:1px solid var(--border);
+  font-size:14px;text-align:center;letter-spacing:2px;background:#faf9ff;margin-bottom:12px;
+}
+.lock-card input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(124,58,237,.12);background:#fff}
+.lock-card .btn{width:100%}
+
 /* ===== 移动端 ===== */
 @media(max-width:820px){
   .container{padding:0 12px}
@@ -782,7 +813,7 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
 >
   <path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" />
 </svg>
-</span><span class="stat-body"><div class="stat-num" id="statVip12" style="color:var(--warning)">0</div><div class="stat-label">12h VIP</div></span></div>
+</span><span class="stat-body"><div class="stat-num" id="statVip12" style="color:var(--warning)">0</div><div class="stat-label">7~14 天</div></span></div>
   <div class="stat st-c4"><span class="stat-ic"><!-- @license lucide-static v0.460.0 - ISC -->
 <svg
   
@@ -801,7 +832,7 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
   <rect   x="3" y="4" rx="2" />
   <path d="M3 10h18" />
 </svg>
-</span><span class="stat-body"><div class="stat-num" id="statProgress" style="color:var(--primary)">0</div><div class="stat-label">7~14 天</div></span></div>
+</span><span class="stat-body"><div class="stat-num" id="statProgress" style="color:var(--primary)">0</div><div class="stat-label">12h 有效</div></span></div>
   <div class="stat st-c5"><span class="stat-ic"><!-- @license lucide-static v0.460.0 - ISC -->
 <svg
   
@@ -904,10 +935,11 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
   <div class="filter-bar" id="filterBar">
     <button class="btn filter active" data-filter="all">全部</button>
     <button class="btn filter" data-filter="no-vip">未获得 VIP</button>
-    <button class="btn filter" data-filter="vip-12h">7天 12h VIP</button>
+    <button class="btn filter" data-filter="vip-12h">7~14 天</button>
     <button class="btn filter" data-filter="vip">15天 24h VIP</button>
     <button class="btn filter" data-filter="delay">延迟中</button>
   </div>
+  <div class="legend"><span><i class="l0"></i>0~6 天</span><span><i class="l1"></i>7~14 天</span><span><i class="l2"></i>15 天/领奖</span><span><i class="l3"></i>延迟中</span></div>
   <div class="grid" id="grid"><div class="empty"><div class="empty-ic"><!-- @license lucide-static v0.460.0 - ISC -->
 <svg
   
@@ -1032,6 +1064,31 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
 </div>
 <input type="file" id="fileInput" accept=".json,application/json">
 <div class="toast" id="toast"></div>
+<div class="lock-screen" id="lockScreen">
+  <div class="lock-card">
+    <div class="lock-ic"><!-- @license lucide-static v0.460.0 - ISC -->
+<svg
+  
+  xmlns="http://www.w3.org/2000/svg"
+  
+  
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <rect   x="3" y="11" rx="2" ry="2" />
+  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+</svg>
+</div>
+    <h3>输入密码解锁</h3>
+    <p>凭据已加密保护。输入密码即可查看卡号/密码、复制、刷新与一键登录。密码保存在本机浏览器,输一次即可。</p>
+    <input type="password" id="lockPwd" placeholder="请输入密码" autocomplete="off">
+    <button class="btn primary" id="btnUnlock">解锁</button>
+  </div>
+</div>
 <script>
 
     const CONFIG = {
@@ -1214,13 +1271,13 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
       const filtered = accounts.filter(a => {
         if (q && !(a.name || '').toLowerCase().includes(q)) return false;
         if (currentFilter === 'vip') return !a.dead && a.days >= 15;
-        if (currentFilter === 'vip-12h') return !a.dead && hasActiveVip12h(a);
+        if (currentFilter === 'vip-12h') return !a.dead && a.days >= 7 && a.days < 15;
         if (currentFilter === 'no-vip') return !a.dead && a.days < 15 && !hasActiveVip12h(a);
         if (currentFilter === 'delay') return isDelayed(a);
         return true;
       });
       if (!filtered.length) {
-        const msg = currentFilter === 'vip' ? '暂无 15天 24h VIP 账号' : currentFilter === 'vip-12h' ? '暂无 7天 12h VIP 账号' : currentFilter === 'no-vip' ? '暂无未获得 VIP 的账号' : currentFilter === 'delay' ? '暂无延迟中的账号' : '暂无账号';
+        const msg = currentFilter === 'vip' ? '暂无 15天 24h VIP 账号' : currentFilter === 'vip-12h' ? '暂无 7~14 天阶段的账号' : currentFilter === 'no-vip' ? '暂无未获得 VIP 的账号' : currentFilter === 'delay' ? '暂无延迟中的账号' : '暂无账号';
         grid.innerHTML = `<div class="empty"><div class="empty-ic">${icDb}</div><div class="empty-msg">${msg}</div><div class="empty-hint">点「导入 state.json」或「从 GitHub 同步」加载数据</div></div>`;
       } else {
         grid.innerHTML = filtered.map((a, i) => {
@@ -1399,8 +1456,8 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
     function updateStats() {
       const signed = accounts.filter(a => a.signedToday).length;
       const vip24 = accounts.filter(a => !a.dead && a.days >= 15).length;
-      const vip12 = accounts.filter(a => !a.dead && hasActiveVip12h(a)).length;
-      const progress = accounts.filter(a => !a.dead && a.days >= 7 && a.days < 15).length;
+      const vip12 = accounts.filter(a => !a.dead && a.days >= 7 && a.days < 15).length;
+      const progress = accounts.filter(a => !a.dead && hasActiveVip12h(a)).length;
       const delayed = accounts.filter(a => isDelayed(a)).length;
       const alive = accounts.filter(a => !a.dead).length;
       const dead = accounts.filter(a => a.dead).length;
@@ -1689,6 +1746,87 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
         });
       });
     })();
+
+// ===== v7 密码锁 =====
+const LOCKED = "[CREDENTIALS_LOCK_PLACEHOLDER]";
+const hasLock = function () { return typeof LOCKED === 'string' && LOCKED.length > 20 && LOCKED.charAt(0) !== '['; };
+
+function b64ToBuf(b64) {
+  const bin = atob(b64);
+  const u = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i);
+  return u;
+}
+function bufToB64(buf) {
+  let bin = '';
+  const u = new Uint8Array(buf);
+  for (let i = 0; i < u.length; i++) bin += String.fromCharCode(u[i]);
+  return btoa(bin);
+}
+async function deriveKey(pwd, salt, iterations) {
+  const pm = await crypto.subtle.importKey('raw', new TextEncoder().encode(pwd), 'PBKDF2', false, ['deriveKey']);
+  return crypto.subtle.deriveKey(
+    { name: 'PBKDF2', salt: salt, iterations: iterations, hash: 'SHA-256' },
+    pm, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']
+  );
+}
+async function unlockWithPassword(pwd) {
+  // 格式: v1.<saltB64>.<ivB64>.<iterations>.<cipherB64>
+  const parts = LOCKED.split('.');
+  if (parts.length !== 5 || parts[0] !== 'v1') throw new Error('锁定数据格式错误');
+  const salt = b64ToBuf(parts[1]);
+  const iv = b64ToBuf(parts[2]);
+  const iterations = parseInt(parts[3], 10);
+  const key = await deriveKey(pwd, salt, iterations);
+  const pt = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: iv }, key, b64ToBuf(parts[4]));
+  const json = new TextDecoder().decode(pt);
+  const obj = JSON.parse(json);
+  if (!obj || typeof obj.checksum !== 'string') throw new Error('解密失败');
+  return obj;
+}
+function showLockScreen() {
+  const el = document.getElementById('lockScreen');
+  if (el) el.style.display = 'flex';
+}
+function hideLockScreen() {
+  const el = document.getElementById('lockScreen');
+  if (el) el.style.display = 'none';
+}
+function initLock() {
+  if (!hasLock) return;
+  showLockScreen();
+  const savedPwd = ls ? ls.getItem('panel_lock_pwd') : null;
+  document.getElementById('btnUnlock').addEventListener('click', function () {
+    doUnlock(document.getElementById('lockPwd').value);
+  });
+  document.getElementById('lockPwd').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') doUnlock(document.getElementById('lockPwd').value);
+  });
+  if (savedPwd) doUnlock(savedPwd, true);
+}
+async function doUnlock(pwd, silent) {
+  if (!pwd) return toast('请输入密码', true);
+  try {
+    const obj = await unlockWithPassword(pwd);
+    // 校验 checksum
+    const chk = obj.checksum;
+    delete obj.checksum;
+    // obj.cards = [{token, card, pwd, id}, ...] 按下标回填
+    const cards = obj.cards || [];
+    accounts.forEach(function (a, i) {
+      const c = cards[i];
+      if (c) { a.token = c.token || ''; a.card = c.card || ''; a.pwd = c.pwd || ''; a.id = c.id || ''; }
+    });
+    if (ls) ls.setItem('panel_lock_pwd', pwd);
+    hideLockScreen();
+    render();
+    toast('🔓 已解锁,完整凭据已加载');
+  } catch (e) {
+    if (!silent) toast('密码错误或数据损坏', true);
+    else { showLockScreen(); }
+  }
+}
+initLock();
 
 </script>
 </body>
