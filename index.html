@@ -353,7 +353,6 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
 </head>
 <body>
 <div style="background:#fef3c7;color:#92400e;padding:8px 16px;font-size:12px;text-align:center;">📱 脱敏面板 · 点「从 GitHub 同步」输入 Token 可查看完整凭据 · <a href="https://github.com/shake24342/VIPvip" style="color:#1d4ed8;">私有仓库</a></div>
-<div style="background:#fef3c7;color:#92400e;padding:8px 16px;font-size:12px;text-align:center;">📱 脱敏面板 · 点「从 GitHub 同步」输入 Token 可查看完整凭据 · <a href="https://github.com/shake24342/VIPvip" style="color:#1d4ed8;">私有仓库</a></div>
 <!-- 浮动装饰 -->
 <div class="deco d1"><!-- @license lucide-static v0.460.0 - ISC -->
 <svg
@@ -1093,7 +1092,7 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
     }
 
     function updateNet(online) {
-      document.getElementById('netStatus').innerHTML = online ? '<span class="dot ok"></span>在线' : '<span class="dot bad"></span>离线';
+      document.getElementById('netStatus').textContent = online ? '<span class="dot ok"></span>在线' : '<span class="dot bad"></span>离线';
     }
     window.addEventListener('online', () => updateNet(true));
     window.addEventListener('offline', () => updateNet(false));
@@ -1154,111 +1153,12 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
     }
 
     function statusIcon(days, dead, delay) {
-      if (dead) return '<!-- @license lucide-static v0.460.0 - ISC -->
-<svg
-  
-  xmlns="http://www.w3.org/2000/svg"
-  
-  
-  viewBox="0 0 24 24"
-  fill="none"
-  stroke="currentColor"
-  stroke-
-  stroke-linecap="round"
-  stroke-linejoin="round"
->
-  <path d="m12.5 17-.5-1-.5 1h1z" />
-  <path d="M15 22a1 1 0 0 0 1-1v-1a2 2 0 0 0 1.56-3.25 8 8 0 1 0-11.12 0A2 2 0 0 0 8 20v1a1 1 0 0 0 1 1z" />
-  <circle cx="15" cy="12" r="1" />
-  <circle cx="9" cy="12" r="1" />
-</svg>
-';
-      if (delay > 0) return '<!-- @license lucide-static v0.460.0 - ISC -->
-<svg
-  
-  xmlns="http://www.w3.org/2000/svg"
-  
-  
-  viewBox="0 0 24 24"
-  fill="none"
-  stroke="currentColor"
-  stroke-
-  stroke-linecap="round"
-  stroke-linejoin="round"
->
-  <rect x="14" y="4"   rx="1" />
-  <rect x="6" y="4"   rx="1" />
-</svg>
-';
-      if (days >= 15) return '<!-- @license lucide-static v0.460.0 - ISC -->
-<svg
-  
-  xmlns="http://www.w3.org/2000/svg"
-  
-  
-  viewBox="0 0 24 24"
-  fill="none"
-  stroke="currentColor"
-  stroke-
-  stroke-linecap="round"
-  stroke-linejoin="round"
->
-  <path d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z" />
-  <path d="M5 21h14" />
-</svg>
-';
-      if (days >= 7) return '<!-- @license lucide-static v0.460.0 - ISC -->
-<svg
-  
-  xmlns="http://www.w3.org/2000/svg"
-  
-  
-  viewBox="0 0 24 24"
-  fill="none"
-  stroke="currentColor"
-  stroke-
-  stroke-linecap="round"
-  stroke-linejoin="round"
->
-  <path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" />
-</svg>
-';
-      if (days > 0) return '<!-- @license lucide-static v0.460.0 - ISC -->
-<svg
-  
-  xmlns="http://www.w3.org/2000/svg"
-  
-  
-  viewBox="0 0 24 24"
-  fill="none"
-  stroke="currentColor"
-  stroke-
-  stroke-linecap="round"
-  stroke-linejoin="round"
->
-  <path d="M8 2v4" />
-  <path d="M16 2v4" />
-  <rect   x="3" y="4" rx="2" />
-  <path d="M3 10h18" />
-</svg>
-';
-      return '<!-- @license lucide-static v0.460.0 - ISC -->
-<svg
-  
-  xmlns="http://www.w3.org/2000/svg"
-  
-  
-  viewBox="0 0 24 24"
-  fill="none"
-  stroke="currentColor"
-  stroke-
-  stroke-linecap="round"
-  stroke-linejoin="round"
->
-  <circle cx="12" cy="12" r="10" />
-  <polyline points="12 6 12 12 16 14" />
-</svg>
-';
+      if (dead) return '<svg  xmlns="http://www.w3.org/2000/svg"   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke- stroke-linecap="round" stroke-linejoin="round" ><path d="m12.5 17-.5-1-.5 1h1z" /><path d="M15 22a1 1 0 0 0 1-1v-1a2 2 0 0 0 1.56-3.25 8 8 0 1 0-11.12 0A2 2 0 0 0 8 20v1a1 1 0 0 0 1 1z" /><circle cx="15" cy="12" r="1" /><circle cx="9" cy="12" r="1" /></svg>';
+      if (delay > 0) return '<svg  xmlns="http://www.w3.org/2000/svg"   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke- stroke-linecap="round" stroke-linejoin="round" ><rect x="14" y="4"   rx="1" /><rect x="6" y="4"   rx="1" /></svg>';
+      if (days >= 15) return '<svg  xmlns="http://www.w3.org/2000/svg"   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke- stroke-linecap="round" stroke-linejoin="round" ><path d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z" /><path d="M5 21h14" /></svg>';
+      if (days >= 7) return '<svg  xmlns="http://www.w3.org/2000/svg"   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke- stroke-linecap="round" stroke-linejoin="round" ><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></svg>';
+      if (days > 0) return '<svg  xmlns="http://www.w3.org/2000/svg"   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke- stroke-linecap="round" stroke-linejoin="round" ><path d="M8 2v4" /><path d="M16 2v4" /><rect   x="3" y="4" rx="2" /><path d="M3 10h18" /></svg>';
+      return '<svg  xmlns="http://www.w3.org/2000/svg"   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke- stroke-linecap="round" stroke-linejoin="round" ><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>';
     }
 
     function tagFor(a) {
@@ -1300,75 +1200,10 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
 </svg>
 `;
     const ic = {
-      copy: `<!-- @license lucide-static v0.460.0 - ISC -->
-<svg
-  
-  xmlns="http://www.w3.org/2000/svg"
-  
-  
-  viewBox="0 0 24 24"
-  fill="none"
-  stroke="currentColor"
-  stroke-
-  stroke-linecap="round"
-  stroke-linejoin="round"
->
-  <rect   x="8" y="8" rx="2" ry="2" />
-  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
-</svg>
-`,
-      lock: `<!-- @license lucide-static v0.460.0 - ISC -->
-<svg
-  
-  xmlns="http://www.w3.org/2000/svg"
-  
-  
-  viewBox="0 0 24 24"
-  fill="none"
-  stroke="currentColor"
-  stroke-
-  stroke-linecap="round"
-  stroke-linejoin="round"
->
-  <rect   x="3" y="11" rx="2" ry="2" />
-  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-</svg>
-`,
-      refresh: `<!-- @license lucide-static v0.460.0 - ISC -->
-<svg
-  
-  xmlns="http://www.w3.org/2000/svg"
-  
-  
-  viewBox="0 0 24 24"
-  fill="none"
-  stroke="currentColor"
-  stroke-
-  stroke-linecap="round"
-  stroke-linejoin="round"
->
-  <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
-  <path d="M21 3v5h-5" />
-</svg>
-`,
-      login: `<!-- @license lucide-static v0.460.0 - ISC -->
-<svg
-  
-  xmlns="http://www.w3.org/2000/svg"
-  
-  
-  viewBox="0 0 24 24"
-  fill="none"
-  stroke="currentColor"
-  stroke-
-  stroke-linecap="round"
-  stroke-linejoin="round"
->
-  <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
-  <polyline points="10 17 15 12 10 7" />
-  <line x1="15" x2="3" y1="12" y2="12" />
-</svg>
-`,
+      copy: `<svg  xmlns="http://www.w3.org/2000/svg"   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke- stroke-linecap="round" stroke-linejoin="round" ><rect   x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg>`,
+      lock: `<svg  xmlns="http://www.w3.org/2000/svg"   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke- stroke-linecap="round" stroke-linejoin="round" ><rect   x="3" y="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>`,
+      refresh: `<svg  xmlns="http://www.w3.org/2000/svg"   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke- stroke-linecap="round" stroke-linejoin="round" ><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" /><path d="M21 3v5h-5" /></svg>`,
+      login: `<svg  xmlns="http://www.w3.org/2000/svg"   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke- stroke-linecap="round" stroke-linejoin="round" ><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" /><polyline points="10 17 15 12 10 7" /><line x1="15" x2="3" y1="12" y2="12" /></svg>`,
     };
     
       const grid = document.getElementById('grid');
@@ -1460,22 +1295,7 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
       list.innerHTML = active.map(d => {
         return `<div class="domain-item">
           <span class="domain-name">${d.domain}</span>
-          <span class="domain-status active"><!-- @license lucide-static v0.460.0 - ISC -->
-<svg
-  
-  xmlns="http://www.w3.org/2000/svg"
-  
-  
-  viewBox="0 0 24 24"
-  fill="none"
-  stroke="currentColor"
-  stroke-
-  stroke-linecap="round"
-  stroke-linejoin="round"
->
-  <path d="M20 6 9 17l-5-5" />
-</svg>
- 有效 <span class="domain-time">${formatTime(d.updatedAt)}</span></span>
+          <span class="domain-status active"><svg  xmlns="http://www.w3.org/2000/svg"   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke- stroke-linecap="round" stroke-linejoin="round" ><path d="M20 6 9 17l-5-5" /></svg> 有效 <span class="domain-time">${formatTime(d.updatedAt)}</span></span>
         </div>`;
       }).join('');
     }
@@ -1651,6 +1471,8 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
     async function syncFromGitHub() {
       setError('');
       configBox.classList.add('open');
+      if (configBox.scrollIntoView) configBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(function () { try { tokenInput.focus(); } catch (e) {} }, 350);
       const url = githubInput.value.trim();
       const token = tokenInput.value.trim();
       if (!url) return toast('请先填写 GitHub Raw 地址', true);
@@ -1679,7 +1501,7 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
 
     async function refreshOne(i, btn) {
       const a = accounts[i];
-      if (!a.token || a.dead) return toast('无 token 或已失效', true);
+      if (!a.token || a.dead) return toast(a.dead ? '该账号已失效' : '公开版无凭据，点「从 GitHub 同步」输入 Token 解锁', true);
       const old = btn.innerHTML;
       btn.innerHTML = '<span class="loading"></span>';
       try {
@@ -1702,7 +1524,7 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
 
     async function refreshAll() {
       const targets = accounts.filter(a => !a.dead && a.token);
-      if (!targets.length) return toast('没有可刷新的活号', true);
+      if (!targets.length) return toast('当前数据无凭据，点「从 GitHub 同步」输入 Token 解锁', true);
       const btn = document.getElementById('btnRefresh');
       btn.disabled = true;
       btn.innerHTML = '<span class="loading"></span> 刷新中';
@@ -1740,7 +1562,8 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
       configBox.classList.toggle('open');
       pasteRow.style.display = 'flex';
       pasteBtnRow.style.display = 'flex';
-      document.getElementById('pasteArea').focus();
+      if (configBox.classList.contains('open') && configBox.scrollIntoView) configBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(function () { document.getElementById('pasteArea').focus(); }, 350);
     });
 
     document.getElementById('btnConfirmPaste').addEventListener('click', () => {
@@ -1788,13 +1611,13 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
       const a = accounts[i];
       const action = btn.dataset.action;
       if (action === 'copy-card') {
-        if (!a.card) return toast('无身份卡号', true);
+        if (!a.card) return toast('公开版无凭据，点「从 GitHub 同步」输入 Token 解锁', true);
         navigator.clipboard.writeText(a.card).then(() => toast('身份卡号已复制')).catch(() => toast('复制失败', true));
       } else if (action === 'copy-pwd') {
-        if (!a.pwd) return toast('无身份卡密码', true);
+        if (!a.pwd) return toast('公开版无凭据，点「从 GitHub 同步」输入 Token 解锁', true);
         navigator.clipboard.writeText(a.pwd).then(() => toast('密码已复制')).catch(() => toast('复制失败', true));
       } else if (action === 'login') {
-        if (!a.token) return toast('无 accessToken', true);
+        if (!a.token) return toast('公开版无凭据，点「从 GitHub 同步」输入 Token 解锁', true);
         localStorage.setItem('accessToken', a.token);
         toast('已写入 token，跳转中...');
         setTimeout(() => window.open(CONFIG.SITE, '_blank'), 400);
@@ -1808,6 +1631,12 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
     loadLastRun();
     domainHistory = INITIAL_DOMAIN_HISTORY.length ? INITIAL_DOMAIN_HISTORY : domainHistory;
     loadAccounts(INITIAL_ACCOUNTS);
+    // v6: 公开脱敏版首次加载引导(数据无凭据时提示如何解锁完整功能)
+    setTimeout(function () {
+      if (!accounts.some(function (a) { return a.token; })) {
+        toast('👋 公开脱敏版：点「从 GitHub 同步」输入你的 GitHub Token，即可解锁复制卡密/刷新/一键登录');
+      }
+    }, 900);
   
     // ===== v3 导航与工具 =====
     (function () {
