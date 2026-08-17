@@ -138,195 +138,6 @@
     .domain-empty { color: var(--text-2); font-size: 13px; text-align: center; padding: 12px; }
     input[type="file"] { display: none; }
   </style>
-  <style>
-    /* v2.2 视觉增强 — 覆盖原样式，不改动任何 HTML/JS */
-    :root {
-      --bg: #0a0e1a;
-      --surface: rgba(30,41,59,.72);
-      --surface-2: rgba(38,52,73,.72);
-      --text: #e8edf6;
-      --text-2: #8b98ad;
-      --border: rgba(99,118,158,.22);
-      --primary: #4f8cff;
-      --primary-hover: #6ba0ff;
-      --success: #34d399;
-      --warning: #fbbf24;
-      --info: #4f8cff;
-      --danger: #f87171;
-      --delay: #7c8aa0;
-      --radius: 14px;
-      --shadow: 0 8px 32px rgba(0,0,0,.28);
-      --glow: 0 0 24px rgba(79,140,255,.15);
-    }
-    html { scroll-behavior: smooth; }
-    body {
-      background: var(--bg);
-      background-image: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(79,140,255,.10), transparent 70%);
-      background-attachment: fixed;
-      -webkit-font-smoothing: antialiased;
-      padding: 0;
-    }
-    .container { max-width: 1200px; margin: 0 auto; padding: 20px 16px 40px; }
-    header { 
-      margin-bottom: 20px; padding: 18px 0 14px;
-      border-bottom: 1px solid var(--border);
-    }
-    h1 { 
-      font-size: 24px; font-weight: 700;
-      background: linear-gradient(135deg, #e8edf6 0%, #4f8cff 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .meta { font-size: 12px; gap: 16px; margin-top: 6px; }
-    .meta span { 
-      padding: 3px 10px; border-radius: 20px; 
-      background: var(--surface); border: 1px solid var(--border);
-    }
-    .toolbar { gap: 10px; margin-bottom: 20px; }
-    .btn {
-      min-height: 42px; padding: 8px 18px; border-radius: 12px;
-      font-size: 13.5px; font-weight: 500;
-      backdrop-filter: blur(8px);
-      transition: all .2s cubic-bezier(.4,0,.2,1);
-    }
-    .btn:hover { 
-      transform: translateY(-1px); 
-      box-shadow: 0 4px 16px rgba(79,140,255,.2);
-    }
-    .btn:active { transform: translateY(0); }
-    .btn.primary {
-      background: linear-gradient(135deg, var(--primary) 0%, #3b6fd9 100%);
-      border-color: transparent; box-shadow: 0 2px 12px rgba(79,140,255,.25);
-    }
-    .btn.small { min-height: 36px; padding: 6px 12px; font-size: 12px; }
-    .stats { gap: 10px; margin-bottom: 20px; }
-    .stat {
-      border-radius: 14px; padding: 16px 10px;
-      background: linear-gradient(160deg, var(--surface) 0%, rgba(30,41,59,.4) 100%);
-      border: 1px solid var(--border);
-      position: relative; overflow: hidden;
-      transition: transform .2s;
-    }
-    .stat:hover { transform: translateY(-2px); }
-    .stat::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-      background: linear-gradient(90deg, transparent, var(--primary), transparent);
-      opacity: .5;
-    }
-    .stat-num { font-size: 28px; font-weight: 800; letter-spacing: -0.5px; }
-    .stat-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; opacity: .7; }
-    .grid { gap: 14px; }
-    .card {
-      border-radius: 16px; padding: 16px;
-      background: linear-gradient(160deg, var(--surface) 0%, rgba(30,41,59,.4) 100%);
-      backdrop-filter: blur(12px);
-      border: 1px solid var(--border);
-      transition: all .25s cubic-bezier(.4,0,.2,1);
-      position: relative; overflow: hidden;
-    }
-    .card:hover {
-      transform: translateY(-3px);
-      border-color: rgba(79,140,255,.4);
-      box-shadow: 0 8px 32px rgba(0,0,0,.3), var(--glow);
-    }
-    .card.dead { opacity: .45; filter: grayscale(.6); }
-    .card.dead:hover { transform: none; }
-    .card.delayed { opacity: .7; }
-    .card-name { font-size: 17px; font-weight: 700; }
-    .vip-badge {
-      border-radius: 20px; padding: 3px 10px; font-size: 11px; font-weight: 700;
-      background: linear-gradient(135deg, rgba(52,211,153,.2) 0%, rgba(52,211,153,.05) 100%);
-      border: 1px solid rgba(52,211,153,.3);
-      box-shadow: 0 0 12px rgba(52,211,153,.1);
-    }
-    .delay-badge { border-radius: 20px; padding: 3px 10px; }
-    .progress-track { 
-      height: 10px; border-radius: 6px; 
-      background: rgba(0,0,0,.25); 
-      box-shadow: inset 0 1px 3px rgba(0,0,0,.3);
-    }
-    .progress-fill { 
-      border-radius: 6px; 
-      box-shadow: 0 0 8px currentColor;
-      background-image: linear-gradient(90deg, rgba(255,255,255,.0) 0%, rgba(255,255,255,.15) 50%, rgba(255,255,255,.0) 100%) !important;
-      background-size: 200% 100%;
-      animation: shimmer 2s linear infinite;
-    }
-    @keyframes shimmer { to { background-position: -200% 0; } }
-    .info-row { 
-      border-top: 1px solid rgba(99,118,158,.12);
-      padding: 7px 0; font-size: 13px;
-    }
-    .card-actions { gap: 6px; margin-top: 14px; }
-    .card-actions .btn { flex: 1; min-height: 38px; }
-    .filter-bar { 
-      gap: 6px; margin-bottom: 20px;
-      padding: 4px; background: var(--surface); border-radius: 14px;
-      border: 1px solid var(--border); display: inline-flex; flex-wrap: wrap;
-    }
-    .filter-bar .btn { 
-      border: none; background: transparent; min-height: 36px;
-      padding: 6px 16px; border-radius: 10px;
-    }
-    .filter-bar .btn.active {
-      background: linear-gradient(135deg, var(--primary) 0%, #3b6fd9 100%);
-      color: #fff; box-shadow: 0 2px 8px rgba(79,140,255,.3);
-    }
-    .domain-section {
-      border-radius: 16px; padding: 16px;
-      background: linear-gradient(160deg, var(--surface) 0%, rgba(30,41,59,.4) 100%);
-      backdrop-filter: blur(12px);
-    }
-    .domain-item {
-      border-radius: 10px; padding: 10px 14px;
-      background: rgba(0,0,0,.2); border: 1px solid rgba(99,118,158,.1);
-      transition: all .15s;
-    }
-    .domain-item:hover { border-color: rgba(79,140,255,.3); }
-    .empty { padding: 80px 20px; opacity: .5; }
-    .toast {
-      border-radius: 12px; padding: 12px 24px; font-size: 14px;
-      backdrop-filter: blur(12px); box-shadow: 0 8px 32px rgba(0,0,0,.4);
-      max-width: 90vw;
-    }
-    .config {
-      border-radius: 16px; padding: 16px;
-      backdrop-filter: blur(12px);
-    }
-    .config input, .config textarea {
-      border-radius: 10px; padding: 10px 14px; font-size: 13.5px;
-      transition: border-color .15s;
-    }
-    .config input:focus, .config textarea:focus {
-      outline: none; border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(79,140,255,.12);
-    }
-    .hint { font-size: 12.5px; opacity: .6; }
-    ::-webkit-scrollbar { width: 8px; height: 8px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: rgba(99,118,158,.3); border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: rgba(99,118,158,.5); }
-    @media (max-width: 640px) {
-      .container { padding: 12px 10px 32px; }
-      h1 { font-size: 20px; }
-      .stats { grid-template-columns: repeat(3, 1fr); gap: 8px; }
-      .stat { padding: 12px 6px; }
-      .stat-num { font-size: 22px; }
-      .stat-label { font-size: 10px; }
-      .grid { grid-template-columns: 1fr; gap: 12px; }
-      .toolbar { gap: 6px; }
-      .btn { min-height: 40px; padding: 8px 14px; font-size: 13px; }
-      .filter-bar { width: 100%; overflow-x: auto; flex-wrap: nowrap; }
-      .filter-bar .btn { white-space: nowrap; }
-      .card-actions .btn { font-size: 11px; padding: 6px 4px; }
-      .meta { gap: 8px; }
-      .meta span { font-size: 11px; padding: 2px 8px; }
-    }
-    @media (max-width: 400px) {
-      .stats { grid-template-columns: repeat(2, 1fr); }
-      .toolbar .btn { flex: 1; }
-    }
-  </style>
 </head>
 <body>
 <div style="background:#fef3c7;color:#92400e;padding:8px 16px;font-size:12px;text-align:center;">📱 脱敏面板 · 点「从 GitHub 同步」输入 Token 可查看完整凭据 · <a href="https://github.com/shake24342/VIPvip" style="color:#1d4ed8;">私有仓库</a></div>
@@ -404,7 +215,7 @@
 
   <script>
     const CONFIG = {
-      API: 'https://api.demo.xyz/fast-cloud',
+      API: 'https://api.5occfwfy2x0r6t.xyz/fast-cloud',
       SITE: 'https://4w546gg3ihtq8u.xyz/',
       DEFAULT_GITHUB_RAW: 'https://raw.githubusercontent.com/shake24342/VIPvip/main/state.json',
       LS_URL_KEY: 'checkin_dashboard_url',
@@ -416,8 +227,8 @@
     };
 
     // 内嵌初始数据，每次脚本生成时会替换这里
-    const INITIAL_ACCOUNTS = [{"name":"acc1","card":"","pwd":"","token":"","days":5,"id":"","slot":0,"delay":0,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":true,"vip7At":null,"vip7ExpireAt":null},{"name":"acc2","card":"","pwd":"","token":"","days":5,"id":"","slot":1,"delay":0,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc3","card":"","pwd":"","token":"","days":5,"id":"","slot":2,"delay":1,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc4","card":"","pwd":"","token":"","days":5,"id":"","slot":3,"delay":1,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":true,"vip7At":null,"vip7ExpireAt":null},{"name":"acc5","card":"","pwd":"","token":"","days":5,"id":"","slot":4,"delay":2,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc6","card":"","pwd":"","token":"","days":5,"id":"","slot":5,"delay":2,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc7","card":"","pwd":"","token":"","days":5,"id":"","slot":6,"delay":3,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":true,"vip7At":null,"vip7ExpireAt":null},{"name":"acc8","card":"","pwd":"","token":"","days":5,"id":"","slot":7,"delay":3,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc9","card":"","pwd":"","token":"","days":5,"id":"","slot":8,"delay":4,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc10","card":"","pwd":"","token":"","days":5,"id":"","slot":9,"delay":4,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":true,"vip7At":null,"vip7ExpireAt":null},{"name":"acc11","card":"","pwd":"","token":"","days":5,"id":"","slot":10,"delay":5,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc12","card":"","pwd":"","token":"","days":5,"id":"","slot":11,"delay":5,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc13","card":"","pwd":"","token":"","days":5,"id":"","slot":12,"delay":6,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":true,"vip7At":null,"vip7ExpireAt":null},{"name":"acc14","card":"","pwd":"","token":"","days":5,"id":"","slot":13,"delay":6,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc15","card":"","pwd":"","token":"","days":5,"id":"","slot":14,"delay":7,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":"2026-08-17T03:54:52.666Z","vip7ExpireAt":"2026-08-17T15:54:52.667Z"},{"name":"acc16","card":"","pwd":"","token":"","days":5,"id":"","slot":15,"delay":7,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":true,"vip7At":"2026-08-17T03:54:52.667Z","vip7ExpireAt":"2026-08-17T15:54:52.667Z"},{"name":"acc17","card":"","pwd":"","token":"","days":5,"id":"","slot":16,"delay":8,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":"2026-08-17T03:54:52.667Z","vip7ExpireAt":"2026-08-17T15:54:52.667Z"},{"name":"acc18","card":"","pwd":"","token":"","days":5,"id":"","slot":17,"delay":8,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":"2026-08-17T03:54:52.667Z","vip7ExpireAt":"2026-08-17T15:54:52.667Z"},{"name":"acc19","card":"","pwd":"","token":"","days":5,"id":"","slot":18,"delay":9,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":true,"vip7At":"2026-08-17T03:54:52.667Z","vip7ExpireAt":"2026-08-17T15:54:52.667Z"},{"name":"acc20","card":"","pwd":"","token":"","days":5,"id":"","slot":19,"delay":9,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":"2026-08-17T03:54:52.667Z","vip7ExpireAt":"2026-08-17T15:54:52.667Z"},{"name":"acc21","card":"","pwd":"","token":"","days":5,"id":"","slot":20,"delay":10,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":"2026-08-17T03:54:52.667Z","vip7ExpireAt":"2026-08-17T15:54:52.667Z"},{"name":"acc22","card":"","pwd":"","token":"","days":5,"id":"","slot":21,"delay":10,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":true,"vip7At":"2026-08-17T03:54:52.667Z","vip7ExpireAt":"2026-08-17T15:54:52.667Z"},{"name":"acc23","card":"","pwd":"","token":"","days":5,"id":"","slot":22,"delay":11,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":"2026-08-17T03:54:52.667Z","vip7ExpireAt":"2026-08-17T15:54:52.667Z"},{"name":"acc24","card":"","pwd":"","token":"","days":5,"id":"","slot":23,"delay":11,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":"2026-08-17T03:54:52.667Z","vip7ExpireAt":"2026-08-17T15:54:52.667Z"},{"name":"acc25","card":"","pwd":"","token":"","days":5,"id":"","slot":24,"delay":12,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":true,"vip7At":"2026-08-17T03:54:52.667Z","vip7ExpireAt":"2026-08-17T15:54:52.667Z"},{"name":"acc26","card":"","pwd":"","token":"","days":5,"id":"","slot":25,"delay":12,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":"2026-08-17T03:54:52.667Z","vip7ExpireAt":"2026-08-17T15:54:52.667Z"},{"name":"acc27","card":"","pwd":"","token":"","days":5,"id":"","slot":26,"delay":13,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":"2026-08-17T03:54:52.667Z","vip7ExpireAt":"2026-08-17T15:54:52.667Z"},{"name":"acc28","card":"","pwd":"","token":"","days":5,"id":"","slot":27,"delay":13,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":true,"vip7At":"2026-08-17T03:54:52.667Z","vip7ExpireAt":"2026-08-17T15:54:52.667Z"},{"name":"acc29","card":"","pwd":"","token":"","days":7,"id":"","slot":28,"delay":14,"dead":true,"failCount":3,"signedToday":true,"signedYesterday":false,"vip7At":"2026-08-17T03:54:52.667Z","vip7ExpireAt":"2026-08-17T15:54:52.667Z"},{"name":"acc30","card":"","pwd":"","token":"","days":5,"id":"","slot":29,"delay":14,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":"2026-08-17T03:54:52.667Z","vip7ExpireAt":"2026-08-17T15:54:52.667Z"}];
-    const INITIAL_DOMAIN_HISTORY = [{"domain":"https://api.demo.xyz/fast-cloud","status":"active","updatedAt":"2026-08-17T03:54:52.667Z"}];
+    const INITIAL_ACCOUNTS = [{"name":"acc1","card":"","pwd":"","token":"","days":8,"id":"","dead":false,"failCount":1,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc2","card":"","pwd":"","token":"","days":8,"id":"","dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc3","card":"","pwd":"","token":"","days":7,"id":"","dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc4","card":"","pwd":"","token":"","days":7,"id":"","dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc5","card":"","pwd":"","token":"","days":6,"id":"","dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc6","card":"","pwd":"","token":"","days":6,"id":"","dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc7","card":"","pwd":"","token":"","days":5,"id":"","dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc8","card":"","pwd":"","token":"","days":5,"id":"","dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc9","card":"","pwd":"","token":"","days":4,"id":"","dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc10","card":"","pwd":"","token":"","days":4,"id":"","dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc11","card":"","pwd":"","token":"","days":3,"id":"","dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc12","card":"","pwd":"","token":"","days":3,"id":"","dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc13","card":"","pwd":"","token":"","days":2,"id":"","dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc14","card":"","pwd":"","token":"","days":2,"id":"","dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc15","card":"","pwd":"","token":"","days":1,"id":"","dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc16","card":"","pwd":"","token":"","days":1,"id":"","dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc17","card":"","pwd":"","token":"","days":15,"id":"","dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc18","card":"","pwd":"","token":"","days":15,"id":"","dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc19","card":"","pwd":"","token":"","days":14,"id":"","dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc20","card":"","pwd":"","token":"","days":14,"id":"","dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc21","card":"","pwd":"","token":"","days":13,"id":"","dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc22","card":"","pwd":"","token":"","days":13,"id":"","dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc23","card":"","pwd":"","token":"","days":12,"id":"","dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc24","card":"","pwd":"","token":"","days":12,"id":"","dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc25","card":"","pwd":"","token":"","days":11,"id":"","dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc26","card":"","pwd":"","token":"","days":11,"id":"","dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc27","card":"","pwd":"","token":"","days":10,"id":"","dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc28","card":"","pwd":"","token":"","days":10,"id":"","dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc29","card":"","pwd":"","token":"","days":9,"id":"","dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc30","card":"","pwd":"","token":"","days":9,"id":"","dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null}];
+    const INITIAL_DOMAIN_HISTORY = [{"domain":"https://api.iqlxtfxo02eyb4.xyz/fast-cloud","status":"failed","updatedAt":"2026-07-14T16:55:41.771Z"},{"domain":"https://api.5occfwfy2x0r6t.xyz/fast-cloud","status":"active","updatedAt":"2026-08-17T02:15:15.396Z"}];
 
     let accounts = [];
     let domainHistory = [];
