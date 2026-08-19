@@ -1211,7 +1211,8 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
         vip7At: a.vip7At || null,
         vip7ExpireAt: a.vip7ExpireAt || null,
         vip7: a.vip7 || 0,
-        vip15: a.vip15 || 0
+        vip15: a.vip15 || 0,
+        vipValidDate: a.vipValidDate || null
       }));
     }
 
@@ -1332,7 +1333,10 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
           const originalIdx = accounts.indexOf(a);
           const color = progressColor(a.days, a.delay);
           const pct = Math.min(100, (a.days / 15) * 100);
-          const vip24 = a.days >= 15 ? '<span class="vip-badge">24h VIP</span>' : '';
+          const _vipRem = a.vipValidDate ? Math.floor((new Date(a.vipValidDate).getTime() - Date.now()) / 3600000) : -1;
+          const vip24 = _vipRem > 0
+            ? '<span class="vip-badge vip-live" data-vip-idx="' + originalIdx + '">24h VIP · 剩 ' + _vipRem + 'h</span>'
+            : (a.days >= 15 ? '<span class="vip-badge">24h VIP</span>' : '');
           const vip12 = hasActiveVip12h(a) ? '<span class="vip-badge" style="background:rgba(250,173,20,.15);color:var(--warning);border-color:rgba(250,173,20,.3)">12h VIP</span>' : '';
           const delayBadge = a.delay > 0 ? `<span class="delay-badge">延迟 ${a.delay} 天</span>` : '';
           const tag = tagFor(a);
@@ -1376,6 +1380,18 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
       renderDomains();
       updateFilterButtons();
     }
+
+    // 24h VIP 剩余时间实时 tick(每分钟更新一次,数据来自服务端返回的 vipValidDate)
+    setInterval(function () {
+      document.querySelectorAll('.vip-live').forEach(function (el) {
+        const i = Number(el.getAttribute('data-vip-idx'));
+        const a = accounts[i];
+        if (!a || !a.vipValidDate) return;
+        const rem = Math.floor((new Date(a.vipValidDate).getTime() - Date.now()) / 3600000);
+        if (rem > 0) el.textContent = '24h VIP · 剩 ' + rem + 'h';
+        else el.textContent = '24h VIP 已到期';
+      });
+    }, 60000);
 
     function updateFilterButtons() {
       document.querySelectorAll('#filterBar .btn').forEach(btn => {
@@ -1797,7 +1813,7 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
     })();
 
 // ===== v7 密码锁 =====
-const LOCKED = "v1.G0Z/3wA5MJGwQJyh0rs0hA==.+fPw1yFxkMwWxzTg.150000.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";
+const LOCKED = "v1.my9sAcjzkvZ8UHKPIeb6Hw==.jNjow+qdMQOgdrI4.150000.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";
 const hasLock = function () { return typeof LOCKED === 'string' && LOCKED.length > 20 && LOCKED.charAt(0) !== '['; };
 
 function b64ToBuf(b64) {
@@ -1869,7 +1885,12 @@ async function doUnlock(pwd, silent) {
     if (ls) ls.setItem('panel_lock_pwd', pwd);
     hideLockScreen();
     render();
-    toast('🔓 已解锁,完整凭据已加载');
+    toast('🔓 已解锁,正在实时查询目标站真实数据…');
+    // 解锁后自动向目标站实时查询所有账号的真实天数/签到状态(限速 300ms/个)
+    if (!window.__autoRefreshed) {
+      window.__autoRefreshed = true;
+      setTimeout(function () { refreshAll(); }, 600);
+    }
   } catch (e) {
     if (!silent) toast('密码错误或数据损坏', true);
     else { showLockScreen(); }
