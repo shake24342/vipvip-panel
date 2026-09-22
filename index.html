@@ -947,9 +947,6 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
 </svg>
 设置</h2></div>
   <div class="config open" id="configBox">
-    <div class="config-row" style="display:none">
-      <input type="text" id="githubUrl" placeholder="用户名/仓库名">
-    </div>
     <div class="config-row">
       <input type="password" id="githubToken" placeholder="访问令牌（输入一次自动保存）">
       <button class="btn primary" id="btnPullHere">拉取数据</button>
@@ -982,7 +979,6 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
     let accounts = [];
     let currentFilter = 'all';
 
-    const githubInput = document.getElementById('githubUrl');
     const tokenInput = document.getElementById('githubToken');
     const configBox = document.getElementById('configBox');
     const pasteRow = document.getElementById('pasteRow');
@@ -992,9 +988,7 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
       try { return localStorage; } catch (e) { return null; }
     }
     const ls = tryGetLocalStorage();
-    if (ls) {
-      githubInput.value = resolveRepo();
-    }
+
 
 
 
@@ -1260,27 +1254,42 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
 
     async function syncFromGitHub() {
       setError('');
-      const repoInput = githubInput.value.trim();
-      const repoPath = /^[^\s\/]+\/[^\s\/]+$/.test(repoInput) ? repoInput : resolveRepo();
       const token = tokenInput.value.trim();
-      if (!/^[^\s\/]+\/[^\s\/]+$/.test(repoPath)) return toast('请填写仓库（用户名/仓库名）', true);
-      if (!token) return toast('请输入仓库访问令牌', true);
+      if (!token) return toast('请输入访问令牌', true);
 
       const btn = document.getElementById('btnSync');
       btn.disabled = true;
       btn.innerHTML = '<span class="loading"></span> 拉取中';
 
       try {
-        const apiUrl = 'https://api.github.com/repos/' + repoPath + '/contents/state.json?ref=main';
-        const r = await fetch(apiUrl, {
-          headers: { 'Authorization': 'token ' + token, 'Accept': 'application/vnd.github.v3+json' }
-        });
-        if (!r.ok) throw new Error('GitHub API ' + r.status);
-        const j = await r.json();
-        const state = JSON.parse(atob((j.content || '').replace(/\n/g, '')));
-        if (ls) ls.setItem(CONFIG.LS_URL_KEY, repoPath);
-        if (ls) ls.setItem(CONFIG.LS_TOKEN_KEY, token);
+        const headers = { 'Authorization': 'token ' + token, 'Accept': 'application/vnd.github.v3+json' };
+        const tryRepo = async (full) => {
+          const r = await fetch('https://api.github.com/repos/' + full + '/contents/state.json?ref=main', { headers });
+          if (!r.ok) return null;
+          const j = await r.json();
+          const s = JSON.parse(atob((j.content || '').replace(/\n/g, '')));
+          return (s && (s.accounts || Array.isArray(s))) ? s : null;
+        };
+        let state = null, used = '';
+        const cached = resolveRepo();
+        if (cached) {
+          try { state = await tryRepo(cached); if (state) used = cached; } catch (e) {}
+        }
+        if (!state) {
+          const r = await fetch('https://api.github.com/user/repos?per_page=100&affiliation=owner', { headers });
+          if (!r.ok) throw new Error('GitHub API ' + r.status);
+          const repos = await r.json();
+          for (const repo of repos) {
+            try {
+              const s = await tryRepo(repo.full_name);
+              if (s) { state = s; used = repo.full_name; break; }
+            } catch (e) {}
+          }
+        }
+        if (!state) throw new Error('令牌对应的仓库里没有数据文件');
+        if (ls) { ls.setItem(CONFIG.LS_URL_KEY, used); ls.setItem(CONFIG.LS_TOKEN_KEY, token); }
         loadAccounts(state.accounts || state, state.lastRun || state.updatedAt);
+        configBox.classList.remove('open');
       } catch (e) {
         setError(e.message);
         toast('拉取失败：' + e.message, true);
@@ -1358,7 +1367,6 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
       const savedRepo = resolveRepo();
       const savedToken = ls ? (ls.getItem(CONFIG.LS_TOKEN_KEY) || '') : '';
       if (savedRepo && savedToken) {
-        githubInput.value = savedRepo;
         tokenInput.value = savedToken;
         syncFromGitHub();
       }
