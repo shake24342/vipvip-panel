@@ -946,7 +946,7 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
   <circle cx="12" cy="12" r="3" />
 </svg>
 设置</h2></div>
-  <div class="config" id="configBox">
+  <div class="config open" id="configBox">
     <div class="config-row">
       <input type="text" id="githubUrl" placeholder="用户名/仓库名">
       <button class="btn" id="btnSave">保存设置</button>
@@ -969,32 +969,7 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
 </div>
 <input type="file" id="fileInput" accept=".json,application/json">
 <div class="toast" id="toast"></div>
-<div class="lock-screen" id="lockScreen" style="display:flex">
-  <div class="lock-card">
-    <div class="lock-ic"><!-- @license lucide-static v0.460.0 - ISC -->
-<svg
 
-  xmlns="http://www.w3.org/2000/svg"
-
-
-  viewBox="0 0 24 24"
-  fill="none"
-  stroke="currentColor"
-
-  stroke-linecap="round"
-  stroke-linejoin="round"
->
-  <rect   x="3" y="11" rx="2" ry="2" />
-  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-</svg>
-</div>
-    <h3>需要授权访问</h3>
-    <input type="text" id="gateRepo" placeholder="仓库（用户名/仓库名）" autocomplete="off" style="display:none">
-    <input type="password" id="gateToken" placeholder="访问令牌（输入一次自动保存）" autocomplete="off">
-    <button class="btn primary" id="btnGateUnlock">拉取数据</button>
-    <div class="error-box" id="gateError"></div>
-  </div>
-</div>
 <script>
 
     const CONFIG = {
@@ -1285,8 +1260,6 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
 
     async function syncFromGitHub() {
       setError('');
-      const ge = document.getElementById('gateError');
-      if (ge) ge.textContent = '';
       const repoInput = githubInput.value.trim();
       const repoPath = /^[^\s\/]+\/[^\s\/]+$/.test(repoInput) ? repoInput : resolveRepo();
       const token = tokenInput.value.trim();
@@ -1308,10 +1281,8 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
         if (ls) ls.setItem(CONFIG.LS_URL_KEY, repoPath);
         if (ls) ls.setItem(CONFIG.LS_TOKEN_KEY, token);
         loadAccounts(state.accounts || state, state.lastRun || state.updatedAt);
-        hideGate();
       } catch (e) {
         setError(e.message);
-        if (ge) ge.textContent = '拉取失败：' + e.message;
         toast('拉取失败：' + e.message, true);
       } finally {
         btn.disabled = false;
@@ -1385,9 +1356,8 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
 
     });
 
-    // 初始化：未拉取前不显示任何数据
+    // 初始化：空壳面板，已保存令牌则自动拉取
     loadLastRun();
-    showGate();
     (function () {
       const savedRepo = resolveRepo();
       const savedToken = ls ? (ls.getItem(CONFIG.LS_TOKEN_KEY) || '') : '';
@@ -1395,9 +1365,6 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
         githubInput.value = savedRepo;
         tokenInput.value = savedToken;
         syncFromGitHub();
-      } else if (!savedRepo) {
-        const gr = document.getElementById('gateRepo');
-        if (gr) gr.style.display = 'flex';
       }
     })();
   
@@ -1453,7 +1420,7 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
       });
     })();
 
-// ===== 令牌门禁 =====
+// ===== 仓库解析 =====
 function resolveRepo() {
   if (!ls) return '';
   let r = (ls.getItem(CONFIG.LS_URL_KEY) || '').trim();
@@ -1461,27 +1428,6 @@ function resolveRepo() {
   if (m) { r = m[1] + '/' + m[2]; ls.setItem(CONFIG.LS_URL_KEY, r); }
   return /^[^\s\/]+\/[^\s\/]+$/.test(r) ? r : '';
 }
-function showGate() {
-  const el = document.getElementById('lockScreen');
-  if (el) el.style.display = 'flex';
-}
-function hideGate() {
-  const el = document.getElementById('lockScreen');
-  if (el) el.style.display = 'none';
-}
-document.getElementById('btnGateUnlock').addEventListener('click', function () {
-  const gr = document.getElementById('gateRepo');
-  const gv = (gr && gr.style.display !== 'none' && gr.value.trim()) ? gr.value.trim() : resolveRepo();
-  githubInput.value = gv;
-  tokenInput.value = document.getElementById('gateToken').value.trim();
-  document.getElementById('gateError').textContent = '';
-  syncFromGitHub();
-});
-['gateToken'].forEach(function (id) {
-  document.getElementById(id).addEventListener('keydown', function (e) {
-    if (e.key === 'Enter') document.getElementById('btnGateUnlock').click();
-  });
-});
 
 </script>
 </body>
