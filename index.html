@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VIPvip 签到面板</title>
+<title>Panel</title>
 <style>
 :root {
   --bg1:#fdf3f8; --bg2:#f3f0ff; --bg3:#eef6ff;
@@ -499,7 +499,7 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
   <path d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z" />
   <path d="M5 21h14" />
 </svg>
-</span>VIPvip</div>
+</span>Panel</div>
     <div class="nav-links">
       <a class="nav-link active" href="#overview"><!-- @license lucide-static v0.460.0 - ISC -->
 <svg
@@ -644,24 +644,6 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
 延迟中</button>
         </div>
       </div>
-      <a class="nav-link" href="#domain"><!-- @license lucide-static v0.460.0 - ISC -->
-<svg
-  
-  xmlns="http://www.w3.org/2000/svg"
-  
-  
-  viewBox="0 0 24 24"
-  fill="none"
-  stroke="currentColor"
-  stroke-
-  stroke-linecap="round"
-  stroke-linejoin="round"
->
-  <circle cx="12" cy="12" r="10" />
-  <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
-  <path d="M2 12h20" />
-</svg>
-<span>域名状态</span></a>
       <a class="nav-link" href="#settings"><!-- @license lucide-static v0.460.0 - ISC -->
 <svg
   
@@ -682,7 +664,6 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
     </div>
     <div class="nav-right">
       <span class="chip" id="netStatus">检测中…</span>
-      <span class="chip api hide-m" id="apiStatus">API: -</span>
     </div>
   </div>
 </nav>
@@ -690,8 +671,7 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
 <div class="container">
 
 <section class="hero" id="overview">
-  <h1>签到账号面板</h1>
-  <div class="hero-sub">30 账号错峰自动签到 · 每天产出 2 个 24h VIP · 15 天一轮循环 · 数据自动更新</div>
+  <h1>Panel</h1>
   <div class="hero-actions">
     <button class="btn primary" id="btnImportFile"><!-- @license lucide-static v0.460.0 - ISC -->
 <svg
@@ -746,26 +726,7 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
   <polyline points="7 10 12 15 17 10" />
   <line x1="12" x2="12" y1="15" y2="3" />
 </svg>
-从 GitHub 同步</button>
-    <button class="btn" id="btnRefresh"><!-- @license lucide-static v0.460.0 - ISC -->
-<svg
-  
-  xmlns="http://www.w3.org/2000/svg"
-  
-  
-  viewBox="0 0 24 24"
-  fill="none"
-  stroke="currentColor"
-  stroke-
-  stroke-linecap="round"
-  stroke-linejoin="round"
->
-  <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
-  <path d="M21 3v5h-5" />
-  <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
-  <path d="M8 16H3v5" />
-</svg>
-刷新实时状态</button>
+从 GitHub 拉取</button>
   </div>
   <div class="meta"><span id="syncStatus"></span><span id="lastRunStatus"></span></div>
 </section>
@@ -966,100 +927,6 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
 </div><div class="empty-msg">正在加载账号…</div></div></div>
 </section>
 
-<section class="section" id="domain">
-  <div class="section-head"><h2><!-- @license lucide-static v0.460.0 - ISC -->
-<svg
-  
-  xmlns="http://www.w3.org/2000/svg"
-  
-  
-  viewBox="0 0 24 24"
-  fill="none"
-  stroke="currentColor"
-  stroke-
-  stroke-linecap="round"
-  stroke-linejoin="round"
->
-  <circle cx="12" cy="12" r="10" />
-  <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
-  <path d="M2 12h20" />
-</svg>
-域名状态</h2></div>
-  <div class="domain-section" id="domainSection">
-    <div class="domain-header">
-      <h2><!-- @license lucide-static v0.460.0 - ISC -->
-<svg
-  
-  xmlns="http://www.w3.org/2000/svg"
-  
-  
-  viewBox="0 0 24 24"
-  fill="none"
-  stroke="currentColor"
-  stroke-
-  stroke-linecap="round"
-  stroke-linejoin="round"
->
-  <circle cx="12" cy="12" r="10" />
-  <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
-  <path d="M2 12h20" />
-</svg>
-当前 API 域名</h2>
-      <button class="btn small" id="btnProbeDomain"><!-- @license lucide-static v0.460.0 - ISC -->
-<svg
-  
-  xmlns="http://www.w3.org/2000/svg"
-  
-  
-  viewBox="0 0 24 24"
-  fill="none"
-  stroke="currentColor"
-  stroke-
-  stroke-linecap="round"
-  stroke-linejoin="round"
->
-  <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
-  <path d="M21 3v5h-5" />
-  <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
-  <path d="M8 16H3v5" />
-</svg>
-刷新域名</button>
-    </div>
-    <div class="domain-list" id="domainList"><div class="domain-empty">暂无域名状态数据</div></div>
-    <details class="domain-fallback">
-      <summary><!-- @license lucide-static v0.460.0 - ISC -->
-<svg
-  
-  xmlns="http://www.w3.org/2000/svg"
-  
-  
-  viewBox="0 0 24 24"
-  fill="none"
-  stroke="currentColor"
-  stroke-
-  stroke-linecap="round"
-  stroke-linejoin="round"
->
-  <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
-  <circle cx="12" cy="12" r="3" />
-</svg>
-备用域名池(10 个中间域名,探测时逐个尝试)</summary>
-      <div class="domain-fallback-list">
-        <div class="fb-item">wx9x1m87xsj6wocb.xyz</div>
-        <div class="fb-item">8nti79ehrsxkojur.xyz</div>
-        <div class="fb-item">8usd5r9qinnsvuku.xyz</div>
-        <div class="fb-item">00bmrszjl553ea1a.xyz</div>
-        <div class="fb-item">x0okgl899hzs5rur.xyz</div>
-        <div class="fb-item">63jtu93vw77jrui0.xyz</div>
-        <div class="fb-item">1m8718jncrcfcq23.xyz</div>
-        <div class="fb-item">3w63z9f9nktwavnm.xyz</div>
-        <div class="fb-item">bdwcml92o5eeuf7p.xyz</div>
-        <div class="fb-item">3az4de6q6oy69wec.xyz</div>
-      </div>
-      <div class="domain-fallback-note">说明:当前域名不可用时,脚本依次尝试站内域名池与这 10 个备用中间域名,每个需二次解析到真实 API。历史探测记录见上方列表。</div>
-    </details>
-  </div>
-</section>
 
 <section class="section" id="settings">
   <div class="section-head"><h2><!-- @license lucide-static v0.460.0 - ISC -->
@@ -1081,11 +948,11 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
 设置</h2></div>
   <div class="config" id="configBox">
     <div class="config-row">
-      <input type="text" id="githubUrl" placeholder="https://raw.githubusercontent.com/用户名/仓库/main/state.json">
+      <input type="text" id="githubUrl" placeholder="用户名/仓库名">
       <button class="btn" id="btnSave">保存设置</button>
     </div>
     <div class="config-row">
-      <input type="password" id="githubToken" placeholder="GitHub Token(私有仓库必填,公开仓库留空)">
+      <input type="password" id="githubToken" placeholder="仓库访问令牌（必填）">
     </div>
     <div class="config-row" id="pasteRow" style="display:none;width:100%">
       <textarea id="pasteArea" placeholder="state.json 内容粘贴到这里"></textarea>
@@ -1093,27 +960,27 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
     <div class="config-row" id="pasteBtnRow" style="display:none">
       <button class="btn primary" id="btnConfirmPaste">确认导入</button>
     </div>
-    <div class="hint">日常最方便:从 GitHub 仓库下载最新 state.json,点击「导入 state.json」选中即可刷新面板。点「从 GitHub 同步」会自动展开这里的设置项。</div>
+    <div class="hint">填写仓库与访问令牌，点「从 GitHub 拉取」加载面板数据。</div>
     <div class="error-box" id="syncError"></div>
   </div>
 </section>
 
-<footer>VIPvip 签到面板 · 数据由 checkin.js 每次运行自动生成</footer>
+<footer>Panel</footer>
 </div>
 <input type="file" id="fileInput" accept=".json,application/json">
 <div class="toast" id="toast"></div>
-<div class="lock-screen" id="lockScreen">
+<div class="lock-screen" id="lockScreen" style="display:flex">
   <div class="lock-card">
     <div class="lock-ic"><!-- @license lucide-static v0.460.0 - ISC -->
 <svg
-  
+
   xmlns="http://www.w3.org/2000/svg"
-  
-  
+
+
   viewBox="0 0 24 24"
   fill="none"
   stroke="currentColor"
-  stroke-
+
   stroke-linecap="round"
   stroke-linejoin="round"
 >
@@ -1121,35 +988,24 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
   <path d="M7 11V7a5 5 0 0 1 10 0v4" />
 </svg>
 </div>
-    <h3>输入密码解锁</h3>
-    <p>凭据已加密保护。输入密码即可查看卡号/密码、复制、刷新与一键登录。密码保存在本机浏览器,输一次即可。</p>
-    <input type="password" id="lockPwd" placeholder="请输入密码" autocomplete="off">
-    <button class="btn primary" id="btnUnlock">解锁</button>
+    <h3>需要授权访问</h3>
+    <input type="text" id="gateRepo" placeholder="仓库（用户名/仓库名）" autocomplete="off">
+    <input type="password" id="gateToken" placeholder="仓库访问令牌" autocomplete="off">
+    <button class="btn primary" id="btnGateUnlock">拉取数据</button>
+    <div class="error-box" id="gateError"></div>
   </div>
 </div>
 <script>
 
     const CONFIG = {
-      API: 'https://api.u04aqblppfo50.xyz/fast-cloud',
-      SITE: 'https://4w546gg3ihtq8u.xyz/',
-      DEFAULT_GITHUB_RAW: 'https://raw.githubusercontent.com/shake24342/VIPvip/main/state.json',
       LS_URL_KEY: 'checkin_dashboard_url',
       LS_TOKEN_KEY: 'checkin_dashboard_token',
-      LS_API_KEY: 'checkin_dashboard_api',
-      LS_DOMAIN_HISTORY_KEY: 'checkin_dashboard_domains',
-      LS_LAST_RUN_KEY: 'checkin_dashboard_last_run',
-      DELAY: 300
+      LS_LAST_RUN_KEY: 'checkin_dashboard_last_run'
     };
 
-    // 内嵌初始数据，每次脚本生成时会替换这里
-    const INITIAL_ACCOUNTS = [{"name":"acc1","card":"","pwd":"","token":"","days":13,"id":"","slot":0,"delay":0,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc2","card":"","pwd":"","token":"","days":13,"id":"","slot":1,"delay":0,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc3","card":"","pwd":"","token":"","days":12,"id":"","slot":2,"delay":1,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc4","card":"","pwd":"","token":"","days":12,"id":"","slot":3,"delay":1,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc5","card":"","pwd":"","token":"","days":11,"id":"","slot":4,"delay":2,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc6","card":"","pwd":"","token":"","days":11,"id":"","slot":5,"delay":2,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc7","card":"","pwd":"","token":"","days":10,"id":"","slot":6,"delay":3,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc8","card":"","pwd":"","token":"","days":10,"id":"","slot":7,"delay":3,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc9","card":"","pwd":"","token":"","days":9,"id":"","slot":8,"delay":4,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc10","card":"","pwd":"","token":"","days":9,"id":"","slot":9,"delay":4,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc11","card":"","pwd":"","token":"","days":8,"id":"","slot":10,"delay":5,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc12","card":"","pwd":"","token":"","days":8,"id":"","slot":11,"delay":5,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc13","card":"","pwd":"","token":"","days":7,"id":"","slot":12,"delay":6,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc14","card":"","pwd":"","token":"","days":7,"id":"","slot":13,"delay":6,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc15","card":"","pwd":"","token":"","days":6,"id":"","slot":14,"delay":7,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc16","card":"","pwd":"","token":"","days":6,"id":"","slot":15,"delay":7,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc17","card":"","pwd":"","token":"","days":5,"id":"","slot":16,"delay":8,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc18","card":"","pwd":"","token":"","days":5,"id":"","slot":17,"delay":8,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc19","card":"","pwd":"","token":"","days":4,"id":"","slot":18,"delay":9,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc20","card":"","pwd":"","token":"","days":4,"id":"","slot":19,"delay":9,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc21","card":"","pwd":"","token":"","days":3,"id":"","slot":20,"delay":10,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc22","card":"","pwd":"","token":"","days":3,"id":"","slot":21,"delay":10,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc23","card":"","pwd":"","token":"","days":2,"id":"","slot":22,"delay":11,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc24","card":"","pwd":"","token":"","days":2,"id":"","slot":23,"delay":11,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc25","card":"","pwd":"","token":"","days":1,"id":"","slot":24,"delay":12,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc26","card":"","pwd":"","token":"","days":1,"id":"","slot":25,"delay":12,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc27","card":"","pwd":"","token":"","days":15,"id":"","slot":26,"delay":13,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc28","card":"","pwd":"","token":"","days":15,"id":"","slot":27,"delay":13,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc29","card":"","pwd":"","token":"","days":14,"id":"","slot":28,"delay":14,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null},{"name":"acc30","card":"","pwd":"","token":"","days":14,"id":"","slot":29,"delay":14,"dead":false,"failCount":0,"signedToday":true,"signedYesterday":false,"vip7At":null,"vip7ExpireAt":null}];
-    const INITIAL_DOMAIN_HISTORY = [{"domain":"https://api.iqlxtfxo02eyb4.xyz/fast-cloud","status":"failed","updatedAt":"2026-07-14T16:55:41.771Z"},{"domain":"https://api.5occfwfy2x0r6t.xyz/fast-cloud","status":"failed","updatedAt":"2026-08-28T03:39:04.933Z"},{"domain":"https://api.u04aqblppfo50.xyz/fast-cloud","status":"active","updatedAt":"2026-09-16T19:38:06.147Z"},{"domain":"https://8nti79ehrsxkojur.xyz","status":"failed","updatedAt":"2026-08-28T03:39:41.725Z"},{"domain":"https://8usd5r9qinnsvuku.xyz","status":"failed","updatedAt":"2026-08-28T03:39:41.841Z"},{"domain":"https://x0okgl899hzs5rur.xyz","status":"failed","updatedAt":"2026-08-28T03:40:00.850Z"},{"domain":"https://1m8718jncrcfcq23.xyz","status":"failed","updatedAt":"2026-08-28T03:40:12.881Z"},{"domain":"https://3w63z9f9nktwavnm.xyz","status":"failed","updatedAt":"2026-08-28T03:40:27.882Z"},{"domain":"https://bdwcml92o5eeuf7p.xyz","status":"failed","updatedAt":"2026-08-28T03:40:28.017Z"}];
 
     let accounts = [];
-    let domainHistory = [];
     let currentFilter = 'all';
-    let jwtCache = null;
-    let jwtTime = 0;
 
     const githubInput = document.getElementById('githubUrl');
     const tokenInput = document.getElementById('githubToken');
@@ -1162,18 +1018,11 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
     }
     const ls = tryGetLocalStorage();
     if (ls) {
-      githubInput.value = ls.getItem(CONFIG.LS_URL_KEY) || CONFIG.DEFAULT_GITHUB_RAW;
+      githubInput.value = ls.getItem(CONFIG.LS_URL_KEY) || '';
       tokenInput.value = (typeof sessionStorage !== 'undefined') ? (sessionStorage.getItem(CONFIG.LS_TOKEN_KEY) || '') : '';
-      const savedApi = ls.getItem(CONFIG.LS_API_KEY);
-      if (savedApi && savedApi !== 'undefined' && /^https:\/\/[a-z0-9][a-z0-9.-]*\.[a-z]{2,}\//i.test(savedApi)) CONFIG.API = savedApi;
-    } else {
-      githubInput.value = CONFIG.DEFAULT_GITHUB_RAW;
     }
 
-    function setApiStatus() {
-      document.getElementById('apiStatus').textContent = 'API: ' + (CONFIG.API || '未设置');
-    }
-    setApiStatus();
+
 
     function toast(msg, err) {
       const t = document.getElementById('toast');
@@ -1214,33 +1063,6 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
         vipValidDate: a.vipValidDate || null
       }));
     }
-
-    async function getJwt() {
-      const now = Date.now();
-      if (jwtCache && now - jwtTime < 10 * 60 * 1000) return jwtCache;
-      const r = await fetch(`${CONFIG.API}/app/jwt-token`, { method: 'GET' });
-      const j = await r.json();
-      if (j.code !== '0000') throw new Error('JWT 获取失败');
-      jwtCache = j.result;
-      jwtTime = now;
-      return jwtCache;
-    }
-
-    async function api(path, method = 'GET', body = null, token = null) {
-      const jwt = await getJwt();
-      const headers = { 'Content-Type': 'application/json', jwtToken: jwt };
-      if (token) headers.accessToken = token;
-      const opts = { method, headers };
-      if (body !== null) opts.body = JSON.stringify(body);
-      const res = await fetch(`${CONFIG.API}${path}`, opts);
-      return res.json();
-    }
-
-    function isAuthError(code) {
-      return ['1019', '1032', '1033', '1034'].includes(code);
-    }
-
-    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
     function progressColor(days, delay) {
       const d = Math.min(15, Math.max(0, days || 0));
@@ -1326,7 +1148,7 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
       });
       if (!filtered.length) {
         const msg = currentFilter === 'vip' ? '暂无 15天 24h VIP 账号' : currentFilter === 'vip-12h' ? '暂无 7~14 天阶段的账号' : currentFilter === 'no-vip' ? '暂无未获得 VIP 的账号' : currentFilter === 'delay' ? '暂无延迟中的账号' : '暂无账号';
-        grid.innerHTML = `<div class="empty"><div class="empty-ic">${icDb}</div><div class="empty-msg">${msg}</div><div class="empty-hint">点「导入 state.json」或「从 GitHub 同步」加载数据</div></div>`;
+        grid.innerHTML = `<div class="empty"><div class="empty-ic">${icDb}</div><div class="empty-msg">${msg}</div><div class="empty-hint">输入仓库与令牌后拉取数据</div></div>`;
       } else {
         grid.innerHTML = filtered.map((a, i) => {
           const originalIdx = accounts.indexOf(a);
@@ -1346,7 +1168,7 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
             ? `<div class="info-row"><span class="info-label">12h VIP 领取</span><span class="info-value">${formatTime(a.vip7At)}</span></div><div class="info-row"><span class="info-label">12h VIP 到期</span><span class="info-value">${formatTime(a.vip7ExpireAt)}</span></div>`
             : '';
           const delayRow = a.delay > 0
-            ? `<div class="info-row"><span class="info-label">启动延迟</span><span class="info-value" style="color:var(--delay)">⏸️ ${a.delay} 天</span></div>`
+            ? `<div class="info-row"><span class="info-label">启动延迟</span><span class="info-value" style="color:var(--delay)">${a.delay} 天</span></div>`
             : '';
           const cardClass = a.dead ? 'dead' : (a.delay > 0 ? 'delayed' : '');
           return `<div class="row-card ${cardClass}" data-idx="${originalIdx}">
@@ -1369,14 +1191,11 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
             <div class="row-actions">
               <button class="btn act-btn a-copy" data-action="copy-card" data-idx="${originalIdx}">${ic.copy}<span>卡号</span></button>
               <button class="btn act-btn a-pwd" data-action="copy-pwd" data-idx="${originalIdx}">${ic.lock}<span>密码</span></button>
-              <button class="btn act-btn a-refresh" data-action="refresh" data-idx="${originalIdx}">${ic.refresh}<span>刷新</span></button>
-              <button class="btn act-btn a-login" data-action="login" data-idx="${originalIdx}">${ic.login}<span>登录</span></button>
             </div>
           </div>`;
         }).join('');
       }
       updateStats();
-      renderDomains();
       updateFilterButtons();
     }
 
@@ -1405,33 +1224,6 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
       return d.toLocaleString('zh-CN', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
     }
 
-    function renderDomains() {
-      const list = document.getElementById('domainList');
-      const active = (domainHistory || []).filter(d => d.status === 'active').sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
-      if (!active.length) {
-        list.innerHTML = '<div class="domain-empty">暂无有效域名数据<br>点上方「刷新域名」或导入 state.json</div>';
-        return;
-      }
-      list.innerHTML = active.map(d => {
-        return `<div class="domain-item">
-          <span class="domain-name">${esc(d.domain)}</span>
-          <span class="domain-status active"><svg  xmlns="http://www.w3.org/2000/svg"   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke- stroke-linecap="round" stroke-linejoin="round" ><path d="M20 6 9 17l-5-5" /></svg> 有效 <span class="domain-time">${formatTime(d.updatedAt)}</span></span>
-        </div>`;
-      }).join('');
-    }
-
-    function saveDomainHistory() {
-      if (ls) ls.setItem(CONFIG.LS_DOMAIN_HISTORY_KEY, JSON.stringify(domainHistory));
-    }
-
-    function loadDomainHistory() {
-      if (!ls) return;
-      try {
-        const raw = ls.getItem(CONFIG.LS_DOMAIN_HISTORY_KEY);
-        if (raw && raw !== 'undefined') domainHistory = JSON.parse(raw);
-      } catch (e) {}
-    }
-
     function updateLastRun(source) {
       const now = new Date().toLocaleString('zh-CN');
       const el = document.getElementById('lastRunStatus');
@@ -1448,72 +1240,6 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
       const saved = ls.getItem(CONFIG.LS_LAST_RUN_KEY);
       if (saved) {
         document.getElementById('lastRunStatus').textContent = `上次运行：${saved}`;
-      }
-    }
-
-    async function probeCurrentDomain() {
-      const btn = document.getElementById('btnProbeDomain');
-      const old = btn.innerHTML;
-      btn.disabled = true;
-      btn.innerHTML = '<span class="loading"></span> 探测中';
-      try {
-        const r = await fetch(`${CONFIG.API}/app/jwt-token`, { method: 'GET', cache: 'no-store' });
-        const j = await r.json();
-        if (j.code === '0000' && j.result) {
-          updateDomainHistoryEntry(CONFIG.API, 'active');
-          saveDomainHistory();
-          renderDomains();
-          toast(`域名可用：${CONFIG.API}`);
-        } else {
-          throw new Error('返回状态异常');
-        }
-      } catch (e) {
-        // 当前域名不可用，尝试从 GitHub 拉最新 domainHistory
-        toast(`当前域名探测失败：${e.message}，尝试从 GitHub 同步...`, true);
-        await syncDomainHistoryFromGitHub();
-      } finally {
-        btn.disabled = false;
-        btn.innerHTML = old;
-      }
-    }
-
-    function updateDomainHistoryEntry(domain, status) {
-      if (!domain) return;
-      const base = domain.replace(/\/$/, '');
-      const idx = domainHistory.findIndex(d => d.domain === base);
-      const entry = { domain: base, status, updatedAt: new Date().toISOString() };
-      if (idx >= 0) domainHistory[idx] = entry;
-      else domainHistory.push(entry);
-    }
-
-    async function syncDomainHistoryFromGitHub() {
-      const url = githubInput.value.trim() || CONFIG.DEFAULT_GITHUB_RAW;
-      const token = tokenInput.value.trim();
-      if (!url) return;
-      try {
-        let state;
-        try {
-          state = await fetchRaw(url);
-        } catch (rawErr) {
-          if (!token) throw rawErr;
-          state = await fetchViaGitHubApi(url, token);
-        }
-        if (state.apiDomain && /^https:\/\/[a-z0-9][a-z0-9.-]*\.[a-z]{2,}\//i.test(state.apiDomain)) {
-          CONFIG.API = state.apiDomain;
-          setApiStatus();
-          if (ls) ls.setItem(CONFIG.LS_API_KEY, state.apiDomain);
-          toast('API 域名已更新: ' + state.apiDomain);
-        }
-        if (state.domainHistory && state.domainHistory.length) {
-          domainHistory = state.domainHistory;
-          saveDomainHistory();
-          renderDomains();
-          toast(`已从 GitHub 同步 ${domainHistory.length} 条域名记录`);
-        } else {
-          toast('GitHub 上暂无域名历史记录');
-        }
-      } catch (e) {
-        toast('同步域名失败：' + e.message, true);
       }
     }
 
@@ -1534,22 +1260,12 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
       document.getElementById('statDead').textContent = dead;
     }
 
-    function loadAccounts(list, apiDomain, domains, lastRun) {
+    function loadAccounts(list, lastRun) {
       accounts = normalizeAccounts(list);
-      if (domains) {
-        domainHistory = domains;
-        saveDomainHistory();
-      }
       render();
       const now = new Date().toLocaleString('zh-CN');
       document.getElementById('syncStatus').textContent = '更新时间：' + now;
       updateLastRun(lastRun || now);
-      // [安全] 仅允许 https 开头且包含已知 TLD 的域名,防止恶意 state.json 覆盖 apiDomain
-      if (apiDomain && /^https:\/\/[a-z0-9][a-z0-9.-]*\.[a-z]{2,}\//i.test(apiDomain)) {
-        CONFIG.API = apiDomain;
-        setApiStatus();
-        if (ls) ls.setItem(CONFIG.LS_API_KEY, apiDomain);
-      }
       toast(`已加载 ${accounts.length} 个账号`);
     }
 
@@ -1559,7 +1275,7 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
       reader.onload = e => {
         try {
           const state = JSON.parse(e.target.result);
-          loadAccounts(state.accounts || state, state.apiDomain, state.domainHistory, state.lastRun || state.updatedAt);
+          loadAccounts(state.accounts || state, state.lastRun || state.updatedAt);
         } catch (err) {
           toast('文件解析失败', true);
         }
@@ -1567,110 +1283,39 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
       reader.readAsText(file);
     }
 
-    async function fetchRaw(url) {
-      const r = await fetch(url + '?t=' + Date.now(), { cache: 'no-store' });
-      if (!r.ok) throw new Error('Raw HTTP ' + r.status);
-      return r.json();
-    }
-
-    async function fetchViaGitHubApi(rawUrl, token) {
-      const match = rawUrl.match(/raw\.githubusercontent\.com\/([^/]+)\/([^/]+)\/([^/]+)\/(.+)/);
-      if (!match) throw new Error('无法解析 GitHub Raw 地址');
-      const [, owner, repo, branch, filePath] = match;
-      const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}?ref=${branch}`;
-      const r = await fetch(apiUrl, {
-        headers: {
-          'Authorization': `token ${token}`,
-          'Accept': 'application/vnd.github.v3+json'
-        }
-      });
-      if (!r.ok) throw new Error('GitHub API ' + r.status);
-      const j = await r.json();
-      const content = atob(j.content.replace(/\n/g, ''));
-      return JSON.parse(content);
-    }
-
     async function syncFromGitHub() {
       setError('');
-      configBox.classList.add('open');
-      if (configBox.scrollIntoView) configBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      setTimeout(function () { try { tokenInput.focus(); } catch (e) {} }, 350);
-      const url = githubInput.value.trim();
+      const ge = document.getElementById('gateError');
+      if (ge) ge.textContent = '';
+      const repoPath = githubInput.value.trim().replace(/^https:\/\/github\.com\//i, '').replace(/\.git$/, '').replace(/\/+$/, '');
       const token = tokenInput.value.trim();
-      if (!url) return toast('请先填写 GitHub Raw 地址', true);
+      if (!/^[^\s\/]+\/[^\s\/]+$/.test(repoPath)) return toast('请填写仓库（用户名/仓库名）', true);
+      if (!token) return toast('请输入仓库访问令牌', true);
 
       const btn = document.getElementById('btnSync');
       btn.disabled = true;
-      btn.innerHTML = '<span class="loading"></span> 同步中';
+      btn.innerHTML = '<span class="loading"></span> 拉取中';
 
       try {
-        let state;
-        try {
-          state = await fetchRaw(url);
-        } catch (rawErr) {
-          if (!token) throw new Error('Raw 拉取失败（' + rawErr.message + '），私有仓库请填写 Token');
-          state = await fetchViaGitHubApi(url, token);
-        }
-        loadAccounts(state.accounts || [], state.apiDomain, state.domainHistory, state.lastRun || state.updatedAt);
+        const apiUrl = 'https://api.github.com/repos/' + repoPath + '/contents/state.json?ref=main';
+        const r = await fetch(apiUrl, {
+          headers: { 'Authorization': 'token ' + token, 'Accept': 'application/vnd.github.v3+json' }
+        });
+        if (!r.ok) throw new Error('GitHub API ' + r.status);
+        const j = await r.json();
+        const state = JSON.parse(atob((j.content || '').replace(/\n/g, '')));
+        if (ls) ls.setItem(CONFIG.LS_URL_KEY, repoPath);
+        if (typeof sessionStorage !== 'undefined') sessionStorage.setItem(CONFIG.LS_TOKEN_KEY, token);
+        loadAccounts(state.accounts || state, state.lastRun || state.updatedAt);
+        hideGate();
       } catch (e) {
         setError(e.message);
-        toast('同步失败：' + e.message, true);
+        if (ge) ge.textContent = '拉取失败：' + e.message;
+        toast('拉取失败：' + e.message, true);
       } finally {
         btn.disabled = false;
-        btn.innerHTML = '📥 从 GitHub 同步';
+        btn.innerHTML = '从 GitHub 拉取';
       }
-    }
-
-    async function refreshOne(i, btn) {
-      const a = accounts[i];
-      if (!a.token || a.dead) return toast(a.dead ? '该账号已失效' : '公开版无凭据，点「从 GitHub 同步」输入 Token 解锁', true);
-      const old = btn.innerHTML;
-      btn.innerHTML = '<span class="loading"></span>';
-      try {
-        const info = await api('/activation/signin/info', 'GET', null, a.token);
-        if (info.code !== '0000') {
-          if (isAuthError(info.code)) { a.dead = true; a.failCount = 3; }
-          toast(`${a.name} 刷新失败：${info.message}`, true);
-        } else {
-          const _d = Number((info.result || {}).days);
-          a.days = Number.isFinite(_d) && _d >= 0 ? _d : 0;
-          a.dead = false;
-          a.failCount = 0;
-          toast(`${a.name} 刷新成功，${a.days} 天`);
-        }
-      } catch (e) {
-        toast(`${a.name} 刷新失败：${e.message}`, true);
-      }
-      btn.innerHTML = old;
-      render();
-    }
-
-    async function refreshAll() {
-      const targets = accounts.filter(a => !a.dead && a.token);
-      if (!targets.length) return toast('当前数据无凭据，点「从 GitHub 同步」输入 Token 解锁', true);
-      const btn = document.getElementById('btnRefresh');
-      btn.disabled = true;
-      btn.innerHTML = '<span class="loading"></span> 刷新中';
-      for (const a of accounts) {
-        if (!a.token || a.dead) continue;
-        try {
-          const info = await api('/activation/signin/info', 'GET', null, a.token);
-          if (info.code !== '0000') {
-            if (isAuthError(info.code)) { a.dead = true; a.failCount = 3; }
-          } else {
-            const _d = Number((info.result || {}).days);
-            a.days = Number.isFinite(_d) && _d >= 0 ? _d : 0;
-            a.dead = false;
-            a.failCount = 0;
-          }
-        } catch (e) {}
-        await sleep(CONFIG.DELAY);
-      }
-      render();
-      updateLastRun();
-      btn.disabled = false;
-      btn.innerHTML = '🔄 刷新实时状态';
-      toast('批量刷新完成');
     }
 
     document.getElementById('fileInput').addEventListener('change', e => {
@@ -1695,7 +1340,7 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
         const text = document.getElementById('pasteArea').value.trim();
         if (!text) return toast('粘贴内容为空', true);
         const state = JSON.parse(text);
-        loadAccounts(state.accounts || state, state.apiDomain, state.domainHistory, state.lastRun || state.updatedAt);
+        loadAccounts(state.accounts || state, state.lastRun || state.updatedAt);
         document.getElementById('pasteArea').value = '';
         pasteRow.style.display = 'none';
         pasteBtnRow.style.display = 'none';
@@ -1708,10 +1353,6 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
       configBox.classList.add('open');
       syncFromGitHub();
     });
-
-    document.getElementById('btnRefresh').addEventListener('click', refreshAll);
-
-    document.getElementById('btnProbeDomain').addEventListener('click', probeCurrentDomain);
 
     document.getElementById('btnSave').addEventListener('click', () => {
       if (ls) {
@@ -1735,32 +1376,26 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
       const a = accounts[i];
       const action = btn.dataset.action;
       if (action === 'copy-card') {
-        if (!a.card) return toast('公开版无凭据，点「从 GitHub 同步」输入 Token 解锁', true);
+        if (!a.card) return toast('无凭据，请先通过令牌拉取', true);
         navigator.clipboard.writeText(a.card).then(() => toast('身份卡号已复制')).catch(() => toast('复制失败', true));
       } else if (action === 'copy-pwd') {
-        if (!a.pwd) return toast('公开版无凭据，点「从 GitHub 同步」输入 Token 解锁', true);
+        if (!a.pwd) return toast('无凭据，请先通过令牌拉取', true);
         navigator.clipboard.writeText(a.pwd).then(() => toast('密码已复制')).catch(() => toast('复制失败', true));
-      } else if (action === 'login') {
-        if (!a.token) return toast('公开版无凭据，点「从 GitHub 同步」输入 Token 解锁', true);
-        localStorage.setItem('accessToken', a.token);
-        toast('已写入 token，跳转中...');
-        setTimeout(() => window.open(CONFIG.SITE, '_blank'), 400);
-      } else if (action === 'refresh') {
-        refreshOne(i, btn);
-      }
+
     });
 
-    // 初始化：优先用内嵌数据，再尝试 localStorage 缓存的域名历史
-    loadDomainHistory();
+    // 初始化：未拉取前不显示任何数据
     loadLastRun();
-    domainHistory = INITIAL_DOMAIN_HISTORY.length ? INITIAL_DOMAIN_HISTORY : domainHistory;
-    loadAccounts(INITIAL_ACCOUNTS);
-    // v6: 公开脱敏版首次加载引导(数据无凭据时提示如何解锁完整功能)
-    setTimeout(function () {
-      if (!accounts.some(function (a) { return a.token; })) {
-        toast('👋 公开脱敏版：点「从 GitHub 同步」输入你的 GitHub Token，即可解锁复制卡密/刷新/一键登录');
+    showGate();
+    (function () {
+      const savedRepo = ls ? ls.getItem(CONFIG.LS_URL_KEY) : '';
+      const savedToken = (typeof sessionStorage !== 'undefined') ? (sessionStorage.getItem(CONFIG.LS_TOKEN_KEY) || '') : '';
+      if (savedRepo && savedToken) {
+        githubInput.value = savedRepo;
+        tokenInput.value = savedToken;
+        syncFromGitHub();
       }
-    }, 900);
+    })();
   
     // ===== v3 导航与工具 =====
     (function () {
@@ -1814,96 +1449,31 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
       });
     })();
 
-// ===== v7 密码锁 =====
-const LOCKED = "v1.6ByqWb3h1qa0HncmMX5nvQ==.emJtr+uBPb2IsbDq.150000.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";
-const hasLock = function () { return typeof LOCKED === 'string' && LOCKED.length > 20 && LOCKED.charAt(0) !== '['; };
-
-function b64ToBuf(b64) {
-  const bin = atob(b64);
-  const u = new Uint8Array(bin.length);
-  for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i);
-  return u;
-}
-function bufToB64(buf) {
-  let bin = '';
-  const u = new Uint8Array(buf);
-  for (let i = 0; i < u.length; i++) bin += String.fromCharCode(u[i]);
-  return btoa(bin);
-}
-async function deriveKey(pwd, salt, iterations) {
-  const pm = await crypto.subtle.importKey('raw', new TextEncoder().encode(pwd), 'PBKDF2', false, ['deriveKey']);
-  return crypto.subtle.deriveKey(
-    { name: 'PBKDF2', salt: salt, iterations: iterations, hash: 'SHA-256' },
-    pm, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']
-  );
-}
-async function unlockWithPassword(pwd) {
-  // 格式: v1.<saltB64>.<ivB64>.<iterations>.<cipherB64>
-  const parts = LOCKED.split('.');
-  if (parts.length !== 5 || parts[0] !== 'v1') throw new Error('锁定数据格式错误');
-  const salt = b64ToBuf(parts[1]);
-  const iv = b64ToBuf(parts[2]);
-  const iterations = parseInt(parts[3], 10);
-  const key = await deriveKey(pwd, salt, iterations);
-  const pt = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: iv }, key, b64ToBuf(parts[4]));
-  const json = new TextDecoder().decode(pt);
-  const obj = JSON.parse(json);
-  if (!obj || typeof obj.checksum !== 'string') throw new Error('解密失败');
-  return obj;
-}
-function showLockScreen() {
+// ===== 令牌门禁 =====
+function showGate() {
   const el = document.getElementById('lockScreen');
   if (el) el.style.display = 'flex';
+  if (ls) {
+    const savedRepo = ls.getItem(CONFIG.LS_URL_KEY);
+    const gr = document.getElementById('gateRepo');
+    if (savedRepo && gr && !gr.value) gr.value = savedRepo;
+  }
 }
-function hideLockScreen() {
+function hideGate() {
   const el = document.getElementById('lockScreen');
   if (el) el.style.display = 'none';
 }
-function initLock() {
-  if (!hasLock()) return;
-  showLockScreen();
-  const savedPwd = (typeof sessionStorage !== 'undefined') ? sessionStorage.getItem('panel_lock_pwd') : null;
-  document.getElementById('btnUnlock').addEventListener('click', function () {
-    doUnlock(document.getElementById('lockPwd').value);
+document.getElementById('btnGateUnlock').addEventListener('click', function () {
+  githubInput.value = document.getElementById('gateRepo').value.trim();
+  tokenInput.value = document.getElementById('gateToken').value.trim();
+  document.getElementById('gateError').textContent = '';
+  syncFromGitHub();
+});
+['gateRepo', 'gateToken'].forEach(function (id) {
+  document.getElementById(id).addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') document.getElementById('btnGateUnlock').click();
   });
-  document.getElementById('lockPwd').addEventListener('keydown', function (e) {
-    if (e.key === 'Enter') doUnlock(document.getElementById('lockPwd').value);
-  });
-  if (savedPwd) doUnlock(savedPwd, true);
-}
-let _unlockFails = 0;
-let _unlockLockedUntil = 0;
-async function doUnlock(pwd, silent) {
-  if (!pwd) return toast('请输入密码', true);
-  if (Date.now() < _unlockLockedUntil) return toast('尝试次数过多，请 ' + Math.ceil((_unlockLockedUntil - Date.now()) / 1000) + ' 秒后再试', true);
-  try {
-    const obj = await unlockWithPassword(pwd);
-    _unlockFails = 0;
-    // 删除 checksum 字段(完整性已由 AES-GCM 保证)
-    delete obj.checksum;
-    // obj.cards = [{token, card, pwd, id}, ...] 按下标回填
-    const cards = obj.cards || [];
-    accounts.forEach(function (a, i) {
-      const c = cards[i];
-      if (c) { a.token = c.token || ''; a.card = c.card || ''; a.pwd = c.pwd || ''; a.id = c.id || ''; }
-    });
-    if (typeof sessionStorage !== 'undefined') sessionStorage.setItem('panel_lock_pwd', pwd);
-    hideLockScreen();
-    render();
-    toast('🔓 已解锁,正在实时查询目标站真实数据…');
-    // 解锁后自动向目标站实时查询所有账号的真实天数/签到状态(限速 300ms/个)
-    if (!window.__autoRefreshed) {
-      window.__autoRefreshed = true;
-      setTimeout(function () { refreshAll(); }, 600);
-    }
-  } catch (e) {
-    _unlockFails++;
-    if (_unlockFails >= 5) { _unlockLockedUntil = Date.now() + 30000; _unlockFails = 0; toast('密码错误次数过多，已锁定 30 秒', true); }
-    else if (!silent) toast('密码错误或数据损坏', true);
-    else { showLockScreen(); }
-  }
-}
-initLock();
+});
 
 </script>
 </body>
