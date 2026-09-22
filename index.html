@@ -989,8 +989,8 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
 </svg>
 </div>
     <h3>需要授权访问</h3>
-    <input type="text" id="gateRepo" placeholder="仓库（用户名/仓库名）" autocomplete="off">
-    <input type="password" id="gateToken" placeholder="仓库访问令牌" autocomplete="off">
+    <input type="text" id="gateRepo" placeholder="仓库（用户名/仓库名）" autocomplete="off" style="display:none">
+    <input type="password" id="gateToken" placeholder="访问令牌（输入一次自动保存）" autocomplete="off">
     <button class="btn primary" id="btnGateUnlock">拉取数据</button>
     <div class="error-box" id="gateError"></div>
   </div>
@@ -1018,8 +1018,8 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
     }
     const ls = tryGetLocalStorage();
     if (ls) {
-      githubInput.value = ls.getItem(CONFIG.LS_URL_KEY) || '';
-      tokenInput.value = (typeof sessionStorage !== 'undefined') ? (sessionStorage.getItem(CONFIG.LS_TOKEN_KEY) || '') : '';
+      githubInput.value = resolveRepo();
+      tokenInput.value = ls.getItem(CONFIG.LS_TOKEN_KEY) || '';
     }
 
 
@@ -1287,7 +1287,8 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
       setError('');
       const ge = document.getElementById('gateError');
       if (ge) ge.textContent = '';
-      const repoPath = githubInput.value.trim().replace(/^https:\/\/github\.com\//i, '').replace(/\.git$/, '').replace(/\/+$/, '');
+      const repoInput = githubInput.value.trim();
+      const repoPath = /^[^\s\/]+\/[^\s\/]+$/.test(repoInput) ? repoInput : resolveRepo();
       const token = tokenInput.value.trim();
       if (!/^[^\s\/]+\/[^\s\/]+$/.test(repoPath)) return toast('请填写仓库（用户名/仓库名）', true);
       if (!token) return toast('请输入仓库访问令牌', true);
@@ -1305,7 +1306,7 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
         const j = await r.json();
         const state = JSON.parse(atob((j.content || '').replace(/\n/g, '')));
         if (ls) ls.setItem(CONFIG.LS_URL_KEY, repoPath);
-        if (typeof sessionStorage !== 'undefined') sessionStorage.setItem(CONFIG.LS_TOKEN_KEY, token);
+        if (ls) ls.setItem(CONFIG.LS_TOKEN_KEY, token);
         loadAccounts(state.accounts || state, state.lastRun || state.updatedAt);
         hideGate();
       } catch (e) {
@@ -1357,7 +1358,7 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
     document.getElementById('btnSave').addEventListener('click', () => {
       if (ls) {
         ls.setItem(CONFIG.LS_URL_KEY, githubInput.value.trim());
-        if (typeof sessionStorage !== 'undefined') sessionStorage.setItem(CONFIG.LS_TOKEN_KEY, tokenInput.value.trim());
+        ls.setItem(CONFIG.LS_TOKEN_KEY, tokenInput.value.trim());
       }
       toast('设置已保存');
     });
@@ -1388,12 +1389,15 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
     loadLastRun();
     showGate();
     (function () {
-      const savedRepo = ls ? ls.getItem(CONFIG.LS_URL_KEY) : '';
-      const savedToken = (typeof sessionStorage !== 'undefined') ? (sessionStorage.getItem(CONFIG.LS_TOKEN_KEY) || '') : '';
+      const savedRepo = resolveRepo();
+      const savedToken = ls ? (ls.getItem(CONFIG.LS_TOKEN_KEY) || '') : '';
       if (savedRepo && savedToken) {
         githubInput.value = savedRepo;
         tokenInput.value = savedToken;
         syncFromGitHub();
+      } else if (!savedRepo) {
+        const gr = document.getElementById('gateRepo');
+        if (gr) gr.style.display = 'flex';
       }
     })();
   
@@ -1450,26 +1454,30 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
     })();
 
 // ===== 令牌门禁 =====
+function resolveRepo() {
+  if (!ls) return '';
+  let r = (ls.getItem(CONFIG.LS_URL_KEY) || '').trim();
+  const m = r.match(/(?:raw\.githubusercontent\.com|github\.com)\/([^\/\s]+)\/([^\/\s]+)/i);
+  if (m) { r = m[1] + '/' + m[2]; ls.setItem(CONFIG.LS_URL_KEY, r); }
+  return /^[^\s\/]+\/[^\s\/]+$/.test(r) ? r : '';
+}
 function showGate() {
   const el = document.getElementById('lockScreen');
   if (el) el.style.display = 'flex';
-  if (ls) {
-    const savedRepo = ls.getItem(CONFIG.LS_URL_KEY);
-    const gr = document.getElementById('gateRepo');
-    if (savedRepo && gr && !gr.value) gr.value = savedRepo;
-  }
 }
 function hideGate() {
   const el = document.getElementById('lockScreen');
   if (el) el.style.display = 'none';
 }
 document.getElementById('btnGateUnlock').addEventListener('click', function () {
-  githubInput.value = document.getElementById('gateRepo').value.trim();
+  const gr = document.getElementById('gateRepo');
+  const gv = (gr && gr.style.display !== 'none' && gr.value.trim()) ? gr.value.trim() : resolveRepo();
+  githubInput.value = gv;
   tokenInput.value = document.getElementById('gateToken').value.trim();
   document.getElementById('gateError').textContent = '';
   syncFromGitHub();
 });
-['gateRepo', 'gateToken'].forEach(function (id) {
+['gateToken'].forEach(function (id) {
   document.getElementById(id).addEventListener('keydown', function (e) {
     if (e.key === 'Enter') document.getElementById('btnGateUnlock').click();
   });
