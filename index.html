@@ -731,6 +731,40 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
   <div class="meta"><span id="syncStatus"></span><span id="lastRunStatus"></span></div>
 </section>
 
+<section class="section" id="settings">
+  <div class="section-head"><h2><!-- @license lucide-static v0.460.0 - ISC -->
+<svg
+  
+  xmlns="http://www.w3.org/2000/svg"
+  
+  
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+  <circle cx="12" cy="12" r="3" />
+</svg>
+访问令牌</h2></div>
+  <div class="config open" id="configBox">
+    <div class="config-row">
+      <input type="password" id="githubToken" placeholder="访问令牌（输入一次自动保存）">
+      <button class="btn primary" id="btnPullHere">拉取数据</button>
+    </div>
+    <div class="config-row" id="pasteRow" style="display:none;width:100%">
+      <textarea id="pasteArea" placeholder="state.json 内容粘贴到这里"></textarea>
+    </div>
+    <div class="config-row" id="pasteBtnRow" style="display:none">
+      <button class="btn primary" id="btnConfirmPaste">确认导入</button>
+    </div>
+    <div class="hint">输入访问令牌后点「拉取数据」，令牌只输一次。</div>
+    <div class="error-box" id="syncError"></div>
+  </div>
+</section>
+
 <section class="stats" id="stats">
   <div class="stat st-c1"><span class="stat-ic"><!-- @license lucide-static v0.460.0 - ISC -->
 <svg
@@ -928,39 +962,6 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
 </section>
 
 
-<section class="section" id="settings">
-  <div class="section-head"><h2><!-- @license lucide-static v0.460.0 - ISC -->
-<svg
-  
-  xmlns="http://www.w3.org/2000/svg"
-  
-  
-  viewBox="0 0 24 24"
-  fill="none"
-  stroke="currentColor"
-  stroke-
-  stroke-linecap="round"
-  stroke-linejoin="round"
->
-  <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
-  <circle cx="12" cy="12" r="3" />
-</svg>
-设置</h2></div>
-  <div class="config open" id="configBox">
-    <div class="config-row">
-      <input type="password" id="githubToken" placeholder="访问令牌（输入一次自动保存）">
-      <button class="btn primary" id="btnPullHere">拉取数据</button>
-    </div>
-    <div class="config-row" id="pasteRow" style="display:none;width:100%">
-      <textarea id="pasteArea" placeholder="state.json 内容粘贴到这里"></textarea>
-    </div>
-    <div class="config-row" id="pasteBtnRow" style="display:none">
-      <button class="btn primary" id="btnConfirmPaste">确认导入</button>
-    </div>
-    <div class="hint">输入访问令牌后点「拉取数据」，令牌只输一次。</div>
-    <div class="error-box" id="syncError"></div>
-  </div>
-</section>
 
 <footer>Panel</footer>
 </div>
@@ -1245,6 +1246,8 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
           const state = JSON.parse(e.target.result);
           loadAccounts(state.accounts || state, state.lastRun || state.updatedAt);
         configBox.classList.remove('open');
+        var sec = document.getElementById('settings');
+        if (sec) sec.style.display = 'none';
         } catch (err) {
           toast('文件解析失败', true);
         }
@@ -1264,7 +1267,7 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
       try {
         const headers = { 'Authorization': 'token ' + token, 'Accept': 'application/vnd.github.v3+json' };
         const tryRepo = async (full) => {
-          const r = await fetch('https://api.github.com/repos/' + full + '/contents/state.json?ref=main', { headers });
+          const r = await fetch('https://api.github.com/repos/' + full + '/contents/state.json?ref=main&t=' + Date.now(), { headers, cache: 'no-store' });
           if (!r.ok) return null;
           const j = await r.json();
           const s = JSON.parse(atob((j.content || '').replace(/\n/g, '')));
@@ -1276,7 +1279,8 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
           try { state = await tryRepo(cached); if (state) used = cached; } catch (e) {}
         }
         if (!state) {
-          const r = await fetch('https://api.github.com/user/repos?per_page=100&affiliation=owner', { headers });
+          const r = await fetch('https://api.github.com/user/repos?per_page=100&affiliation=owner', { headers, cache: 'no-store' });
+          if (r.status === 401) throw new Error('令牌无效或已过期，请重新生成一个');
           if (!r.ok) throw new Error('GitHub API ' + r.status);
           const repos = await r.json();
           for (const repo of repos) {
@@ -1286,7 +1290,11 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
             } catch (e) {}
           }
         }
-        if (!state) throw new Error('令牌对应的仓库里没有数据文件');
+        if (!state) {
+          const rp = await fetch('https://api.github.com/user/repos?per_page=100&affiliation=owner', { headers, cache: 'no-store' });
+          const priv = rp.ok ? (await rp.json()).filter(x => x.private).length : -1;
+          throw new Error(priv === 0 ? '令牌看不到私有仓库：经典令牌要勾 repo 权限，细粒度令牌要选 All repositories 加 Contents 读取' : '令牌有效，但仓库里没有找到 state.json 数据文件');
+        }
         if (ls) { ls.setItem(CONFIG.LS_URL_KEY, used); ls.setItem(CONFIG.LS_TOKEN_KEY, token); }
         loadAccounts(state.accounts || state, state.lastRun || state.updatedAt);
         configBox.classList.remove('open');
@@ -1331,6 +1339,8 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
     });
 
     document.getElementById('btnSync').addEventListener('click', () => {
+      var sec = document.getElementById('settings');
+      if (sec) sec.style.display = '';
       configBox.classList.add('open');
       syncFromGitHub();
     });
