@@ -895,7 +895,7 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
   <circle cx="11" cy="11" r="8" />
   <path d="m21 21-4.3-4.3" />
 </svg>
-<input type="text" id="searchInput" placeholder="搜索账号名…"></span>
+<input type="text" id="searchInput" placeholder="搜索账号名…" autocomplete="off"></span>
       <span class="tool-select"><select id="sortSelect"><option value="slot">按 slot 排序</option><option value="days">按天数排序</option></select></span>
     </div>
   </div>
@@ -1389,10 +1389,16 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
         });
       });
       var si = document.getElementById('searchInput');
-      if (si) si.addEventListener('input', function () {
-        window.__search = si.value.trim().toLowerCase();
-        render();
-      });
+      if (si) {
+        si.addEventListener('input', function () {
+          window.__search = si.value.trim().toLowerCase();
+          render();
+        });
+        si.value = '';
+      }
+      window.__search = '';
+      var ti = document.getElementById('githubToken');
+      if (ti) ti.value = '';
       var ss = document.getElementById('sortSelect');
       if (ss) ss.addEventListener('change', function () {
         window.__sort = ss.value;
