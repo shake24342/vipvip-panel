@@ -947,12 +947,12 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
 </svg>
 设置</h2></div>
   <div class="config open" id="configBox">
-    <div class="config-row">
+    <div class="config-row" style="display:none">
       <input type="text" id="githubUrl" placeholder="用户名/仓库名">
-      <button class="btn" id="btnSave">保存设置</button>
     </div>
     <div class="config-row">
-      <input type="password" id="githubToken" placeholder="仓库访问令牌（必填）">
+      <input type="password" id="githubToken" placeholder="访问令牌（输入一次自动保存）">
+      <button class="btn primary" id="btnPullHere">拉取数据</button>
     </div>
     <div class="config-row" id="pasteRow" style="display:none;width:100%">
       <textarea id="pasteArea" placeholder="state.json 内容粘贴到这里"></textarea>
@@ -960,7 +960,7 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
     <div class="config-row" id="pasteBtnRow" style="display:none">
       <button class="btn primary" id="btnConfirmPaste">确认导入</button>
     </div>
-    <div class="hint">填写仓库与访问令牌，点「从 GitHub 拉取」加载面板数据。</div>
+    <div class="hint">输入访问令牌后点「拉取数据」，令牌只输一次。</div>
     <div class="error-box" id="syncError"></div>
   </div>
 </section>
@@ -994,7 +994,6 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
     const ls = tryGetLocalStorage();
     if (ls) {
       githubInput.value = resolveRepo();
-      tokenInput.value = ls.getItem(CONFIG.LS_TOKEN_KEY) || '';
     }
 
 
@@ -1123,7 +1122,7 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
       });
       if (!filtered.length) {
         const msg = currentFilter === 'vip' ? '暂无 15天 24h VIP 账号' : currentFilter === 'vip-12h' ? '暂无 7~14 天阶段的账号' : currentFilter === 'no-vip' ? '暂无未获得 VIP 的账号' : currentFilter === 'delay' ? '暂无延迟中的账号' : '暂无账号';
-        grid.innerHTML = `<div class="empty"><div class="empty-ic">${icDb}</div><div class="empty-msg">${msg}</div><div class="empty-hint">输入仓库与令牌后拉取数据</div></div>`;
+        grid.innerHTML = `<div class="empty"><div class="empty-ic">${icDb}</div><div class="empty-msg">${msg}</div><div class="empty-hint">输入访问令牌后拉取数据</div></div>`;
       } else {
         grid.innerHTML = filtered.map((a, i) => {
           const originalIdx = accounts.indexOf(a);
@@ -1251,6 +1250,7 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
         try {
           const state = JSON.parse(e.target.result);
           loadAccounts(state.accounts || state, state.lastRun || state.updatedAt);
+        configBox.classList.remove('open');
         } catch (err) {
           toast('文件解析失败', true);
         }
@@ -1326,12 +1326,8 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
       syncFromGitHub();
     });
 
-    document.getElementById('btnSave').addEventListener('click', () => {
-      if (ls) {
-        ls.setItem(CONFIG.LS_URL_KEY, githubInput.value.trim());
-        ls.setItem(CONFIG.LS_TOKEN_KEY, tokenInput.value.trim());
-      }
-      toast('设置已保存');
+    document.getElementById('btnPullHere').addEventListener('click', () => {
+      syncFromGitHub();
     });
 
     document.getElementById('filterBar').addEventListener('click', e => {
@@ -1366,6 +1362,7 @@ footer{margin-top:26px;text-align:center;color:var(--text3);font-size:12px}
         tokenInput.value = savedToken;
         syncFromGitHub();
       }
+
     })();
   
     // ===== v3 导航与工具 =====
